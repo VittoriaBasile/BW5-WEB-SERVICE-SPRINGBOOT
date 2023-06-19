@@ -29,7 +29,6 @@ public class User {
 	private String email;
 	private String password;
 	@ManyToMany
-
 	private List<Role> role;
 
 	public User(String nome, String cognome, String username, String email, String password) {

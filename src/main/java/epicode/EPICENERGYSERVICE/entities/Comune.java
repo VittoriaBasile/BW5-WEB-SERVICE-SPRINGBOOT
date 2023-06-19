@@ -1,11 +1,13 @@
 package epicode.EPICENERGYSERVICE.entities;
 
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +29,8 @@ public class Comune {
 	private String nome;
 	@ManyToOne
 	private Provincia provincia;
+	@OneToMany(mappedBy = "comune")
+	private List<Indirizzo> indirizzi;
 
 	public Comune(String nome, Provincia provincia) {
 		super();
