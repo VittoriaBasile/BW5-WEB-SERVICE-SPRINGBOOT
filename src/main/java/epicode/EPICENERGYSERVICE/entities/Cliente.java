@@ -44,8 +44,7 @@ public class Cliente {
 	@Enumerated(EnumType.STRING)
 	private RagioneSociale ragioneSociale;
 	private double fatturatoAnnuo;
-	@OneToOne
-	private User user;
+
 	@OneToMany(mappedBy = "cliente")
 	private List<Fattura> fatture;
 
