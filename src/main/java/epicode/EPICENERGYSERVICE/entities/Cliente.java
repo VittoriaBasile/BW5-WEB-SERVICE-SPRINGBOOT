@@ -28,7 +28,9 @@ public class Cliente {
 	@GeneratedValue
 	private UUID id;
 	private int partitaIva;
+	@OneToOne
 	private Indirizzo indirizzoLegale;
+	@OneToOne
 	private Indirizzo indirizzoOperativo;
 	private String email;
 	private String telefono;
