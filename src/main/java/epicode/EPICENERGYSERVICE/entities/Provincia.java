@@ -3,6 +3,8 @@ package epicode.EPICENERGYSERVICE.entities;
 import java.util.List;
 import java.util.UUID;
 
+import com.opencsv.bean.CsvBindByName;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -23,8 +25,11 @@ public class Provincia {
 	@Id
 	@GeneratedValue
 	private UUID id;
+	@CsvBindByName(column = "Sigle")
 	private String sigla;
+	@CsvBindByName(column = "Provincia")
 	private String nome;
+	@CsvBindByName(column = "Regione")
 	private String regione;
 	@OneToMany(mappedBy = "provincia")
 	private List<Comune> comuni;
