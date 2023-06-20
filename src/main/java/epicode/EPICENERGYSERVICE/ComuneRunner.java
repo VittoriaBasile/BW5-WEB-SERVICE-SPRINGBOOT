@@ -10,7 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import epicode.EPICENERGYSERVICE.entities.Comune;
-import epicode.EPICENERGYSERVICE.repositories.ComuneRepository;
+import epicode.EPICENERGYSERVICE.services.ComuneService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ComuneRunner implements CommandLineRunner {
 
 	@Autowired
-	ComuneRepository comuneRepo;
+	ComuneService comuneService;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -87,12 +87,14 @@ public class ComuneRunner implements CommandLineRunner {
 				String codiceProvincia = columns[0];
 				String progressivoComune = columns[1];
 				String denominazione = columns[2];
+				String nomeProvincia = columns[3];
 
 				System.out.println("Codice provincia: " + codiceProvincia + ", progressivo del comune: " + progressivoComune
-						+ ", denominazione in italiano: " + denominazione);
+						+ ", denominazione in italiano: " + denominazione + ", nome provincia: " + nomeProvincia);
 
-				Comune newComune = new Comune(codiceProvincia, progressivoComune, denominazione);
-				comuneRepo.save(newComune);
+				Comune newComune = new Comune(codiceProvincia, progressivoComune, denominazione, nomeProvincia);
+				//comuneRepo.save(newComune);
+				comuneService.create(newComune);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

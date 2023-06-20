@@ -33,17 +33,20 @@ public class Comune {
 	private String progressivoDelComune;
 	@CsvBindByName(column = "Denominazione in Italiano")
 	private String denominazioneInItaliano;
+	@CsvBindByName(column = "Nome Provincia")
+	private String nomeProvincia;
 	@ManyToOne
 	private Provincia provincia;
 	@OneToMany(mappedBy = "comune")
 	private List<Indirizzo> indirizzi;
 
-	public Comune(String codiceProvincia, String progressivoDelComune, String denominazioneInItaliano) {
+	public Comune(String codiceProvincia, String progressivoDelComune, String denominazioneInItaliano,
+			String nomeProvincia) {
 		super();
 		this.codiceProvincia = codiceProvincia;
 		this.progressivoDelComune = progressivoDelComune;
 		this.denominazioneInItaliano = denominazioneInItaliano;
-		//this.provincia = provincia;
+		this.nomeProvincia = nomeProvincia;
 	}
 
 }
