@@ -5,14 +5,20 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import epicode.EPICENERGYSERVICE.entities.Comune;
+import epicode.EPICENERGYSERVICE.repositories.ComuneRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
 public class ComuneRunner implements CommandLineRunner {
+
+	@Autowired
+	ComuneRepository comuneRepo;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -84,6 +90,9 @@ public class ComuneRunner implements CommandLineRunner {
 
 				System.out.println("Codice provincia: " + codiceProvincia + ", progressivo del comune: " + progressivoComune
 						+ ", denominazione in italiano: " + denominazione);
+
+				Comune newComune = new Comune(codiceProvincia, progressivoComune, denominazione);
+				comuneRepo.save(newComune);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

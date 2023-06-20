@@ -27,10 +27,10 @@ public class Comune {
 	@GeneratedValue
 	private UUID id;
 	@CsvBindByName(column = "Codice Provincia")
-	private int codiceProvincia;
+	private String codiceProvincia;
 	//private int codiceProvincia(storico)(1);
 	@CsvBindByName(column = "Progressivo del Comune")
-	private int progressivoDelComune;
+	private String progressivoDelComune;
 	@CsvBindByName(column = "Denominazione in Italiano")
 	private String denominazioneInItaliano;
 	@ManyToOne
@@ -38,12 +38,12 @@ public class Comune {
 	@OneToMany(mappedBy = "comune")
 	private List<Indirizzo> indirizzi;
 
-	public Comune(int codiceProvincia, int progressivoDelComune, String denominazioneInItaliano, Provincia provincia) {
+	public Comune(String codiceProvincia, String progressivoDelComune, String denominazioneInItaliano) {
 		super();
 		this.codiceProvincia = codiceProvincia;
 		this.progressivoDelComune = progressivoDelComune;
 		this.denominazioneInItaliano = denominazioneInItaliano;
-		this.provincia = provincia;
+		//this.provincia = provincia;
 	}
 
 }
