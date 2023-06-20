@@ -23,17 +23,6 @@ public class ComuneService {
 		return comuneRepo.findAll();
 	}
 
-//	public Comune create(Comune c, Provincia p) {
-//
-//		String nomeProvincia = provinciaRepo.findByNome(p.getNome()).toString();
-//		Comune newComune = null;
-//		if (nomeProvincia.equals(c.getNomeProvincia())) {
-//			c.setProvincia(p);
-//			newComune = new Comune(c.getCodiceProvincia(), c.getProgressivoDelComune(), c.getDenominazioneInItaliano(),
-//					c.getNomeProvincia());
-//		}
-//		return comuneRepo.save(newComune);
-//	}
 	public List<Comune> createComuniWithProvincia(List<Comune> comuni) {
 		List<Provincia> province = provinciaRepo.findAll();
 
@@ -48,11 +37,5 @@ public class ComuneService {
 		}
 		return comuni;
 	}
-
-//	public Comune createComuniWithProvincia(Comune c, Provincia p) {
-//		c.setProvincia(p);
-//		comuneRepo.save(c);
-//		return c;
-//	}
 
 }
