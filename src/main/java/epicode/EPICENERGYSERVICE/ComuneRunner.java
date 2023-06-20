@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -110,10 +108,12 @@ public class ComuneRunner implements CommandLineRunner {
 				// denominazione, nomeProvincia);
 				Provincia provincia = provinciaRepo.findByNome(nomeProvincia);
 				if (provincia != null) {
-					List<Comune> comuni = new ArrayList<>();
-					Comune newComune = new Comune(codiceProvincia, progressivoComune, denominazione, nomeProvincia);
-					List<Comune> comuniConProvincia = comuneService.createComuniWithProvincia(comuni);
-					// comuneRepo.save(newComune);
+					// List<Comune> comuni = new ArrayList<>();
+					Comune newComune = new Comune(codiceProvincia, progressivoComune, denominazione, nomeProvincia,
+							provincia);
+					// List<Comune> comuniConProvincia =
+					// comuneService.createComuniWithProvincia(comuni);
+					comuneRepo.save(newComune);
 				}
 			}
 		} catch (IOException e) {

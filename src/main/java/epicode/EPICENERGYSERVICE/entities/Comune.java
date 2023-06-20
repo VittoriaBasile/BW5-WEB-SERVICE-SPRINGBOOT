@@ -28,7 +28,7 @@ public class Comune {
 	private UUID id;
 	@CsvBindByName(column = "Codice Provincia")
 	private String codiceProvincia;
-	//private int codiceProvincia(storico)(1);
+	// private int codiceProvincia(storico)(1);
 	@CsvBindByName(column = "Progressivo del Comune")
 	private String progressivoDelComune;
 	@CsvBindByName(column = "Denominazione in Italiano")
@@ -41,12 +41,13 @@ public class Comune {
 	private List<Indirizzo> indirizzi;
 
 	public Comune(String codiceProvincia, String progressivoDelComune, String denominazioneInItaliano,
-			String nomeProvincia) {
+			String nomeProvincia, Provincia provincia) {
 		super();
 		this.codiceProvincia = codiceProvincia;
 		this.progressivoDelComune = progressivoDelComune;
 		this.denominazioneInItaliano = denominazioneInItaliano;
 		this.nomeProvincia = nomeProvincia;
+		this.provincia = provincia;
 	}
 
 }
