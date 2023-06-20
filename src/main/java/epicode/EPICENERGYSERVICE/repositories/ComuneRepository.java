@@ -12,7 +12,7 @@ import epicode.EPICENERGYSERVICE.entities.Comune;
 
 @Repository
 public interface ComuneRepository extends JpaRepository<Comune, UUID> {
-	// List<Comune> findByProvincia(String provincia);
+	// List<Comune> findByProvincia(String nome);
 	@Query("SELECT c FROM Comune c WHERE c.provincia = :provincia")
 	List<Comune> findByProvincia(@Param("provincia") String provincia);
 

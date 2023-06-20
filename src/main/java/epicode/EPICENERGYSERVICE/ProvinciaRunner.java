@@ -32,6 +32,7 @@ public class ProvinciaRunner implements CommandLineRunner {
 		// TODO Auto-generated method stub
 
 		if (provinciaRepo.findAll().size() == 0) {
+
 			String filePath = new File("province-italiane.csv").getAbsolutePath();
 			boolean isFirstLine = true;
 
@@ -48,8 +49,7 @@ public class ProvinciaRunner implements CommandLineRunner {
 					String provincia = columns[1];
 					String regione = columns[2];
 
-					System.out.println(
-							"Sigla: " + siglaProvincia + ", provincia: " + provincia + ", Regione: " + regione);
+					System.out.println("Sigla: " + siglaProvincia + ", provincia: " + provincia + ", Regione: " + regione);
 					List<Comune> comuni = comuneRepo.findAll();
 					List<Comune> comuniPerProvincia = new ArrayList();
 					for (Comune comune : comuni) {
