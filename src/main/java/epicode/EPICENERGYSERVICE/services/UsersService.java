@@ -40,6 +40,7 @@ public class UsersService {
 
 	public User findById(UUID id) throws NotFoundException {
 		return usersRepo.findById(id).orElseThrow(() -> new NotFoundException("Utete con Id:" + id + "non trovato!!"));
+
 	}
 
 	public User findByEmail(String email) throws NotFoundException {
@@ -52,20 +53,21 @@ public class UsersService {
 				.orElseThrow(() -> new NotFoundException("Utete:" + username + "non trovato!!"));
 	}
 
-//	public User findByIdAndUpdate(UUID id, User u) throws NotFoundException {
-//		User found = this.findById(id);
-//
-//		found.setId(id);
-//		found.setName(u.getName());
-//		found.setSurname(u.getSurname());
-//		found.setEmail(u.getEmail());
-//
-//		return usersRepo.save(found);
-//	}
+	public User findByIdAndUpdate(UUID id, User u) throws NotFoundException {
+		User found = this.findById(id);
+
+		found.setId(id);
+		found.setNome(u.getNome());
+		found.setCognome(u.getCognome());
+		found.setUsername(u.getUsername());
+		found.setEmail(u.getEmail());
+		found.setPassword(u.getPassword());
+
+		return usersRepo.save(found);
+	}
 
 	public void findByIdAndDelete(UUID id) throws NotFoundException {
 		User found = this.findById(id);
 		usersRepo.delete(found);
 	}
-
 }
