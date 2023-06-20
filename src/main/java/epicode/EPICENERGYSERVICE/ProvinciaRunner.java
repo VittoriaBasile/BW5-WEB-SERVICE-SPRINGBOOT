@@ -4,15 +4,26 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import epicode.EPICENERGYSERVICE.entities.Comune;
+import epicode.EPICENERGYSERVICE.entities.Provincia;
+import epicode.EPICENERGYSERVICE.repositories.ComuneRepository;
+import epicode.EPICENERGYSERVICE.repositories.ProvinciaRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
 public class ProvinciaRunner implements CommandLineRunner {
+	@Autowired
+	ProvinciaRepository provinciaRepo;
+	@Autowired
+	ComuneRepository comuneRepo;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -35,6 +46,18 @@ public class ProvinciaRunner implements CommandLineRunner {
 				String regione = columns[2];
 
 				System.out.println("Sigla: " + siglaProvincia + ", provincia: " + provincia + ", Regione: " + regione);
+				List<Comune> comuni = comuneRepo.findAll();
+				List<Comune> comuniPerProvincia = new ArrayList();
+				for (Comune comune : comuni) {
+					if (comune.getNomeProvincia().equals(provincia)) {
+						comuniPerProvincia.add(comune);
+
+					}
+
+				}
+				Provincia provincia1 = new Provincia(siglaProvincia, provincia, regione, comuniPerProvincia);
+				provinciaRepo.save(provincia1);
+
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
