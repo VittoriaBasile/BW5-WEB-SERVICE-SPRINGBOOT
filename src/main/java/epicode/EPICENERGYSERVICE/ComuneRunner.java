@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import epicode.EPICENERGYSERVICE.entities.Comune;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
+@Order(1)
 public class ComuneRunner implements CommandLineRunner {
 
 	@Autowired
@@ -86,39 +88,41 @@ public class ComuneRunner implements CommandLineRunner {
 
 		// beans.add(null);
 
-		String filePath = new File("comuni-italiani.csv").getAbsolutePath();
-		boolean isFirstLine = true;
+		if (comuneRepo.findAll().size() == 0) {
 
-		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-			String line;
-			while ((line = br.readLine()) != null) {
-				if (isFirstLine) {
-					isFirstLine = false;
-					continue;
+			String filePath = new File("comuni-italiani.csv").getAbsolutePath();
+			boolean isFirstLine = true;
+
+			try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+				String line;
+				while ((line = br.readLine()) != null) {
+					if (isFirstLine) {
+						isFirstLine = false;
+						continue;
+					}
+
+					String[] columns = line.split(";");
+					String codiceProvincia = columns[0];
+					String progressivoComune = columns[1];
+					String denominazione = columns[2];
+					String nomeProvincia = columns[3];
+
+					System.out.println("Codice provincia: " + codiceProvincia + ", progressivo del comune: " + progressivoComune
+							+ ", denominazione in italiano: " + denominazione + ", nome provincia: " + nomeProvincia);
+					// Comune newComune = new Comune(codiceProvincia, progressivoComune,
+					// denominazione, nomeProvincia);
+					Provincia provincia = provinciaRepo.findByNome(nomeProvincia);
+					if (provincia != null) {
+						// List<Comune> comuni = new ArrayList<>();
+						Comune newComune = new Comune(codiceProvincia, progressivoComune, denominazione, nomeProvincia, provincia);
+						// List<Comune> comuniConProvincia =
+						// comuneService.createComuniWithProvincia(comuni);
+						comuneRepo.save(newComune);
+					}
 				}
-
-				String[] columns = line.split(";");
-				String codiceProvincia = columns[0];
-				String progressivoComune = columns[1];
-				String denominazione = columns[2];
-				String nomeProvincia = columns[3];
-
-				System.out.println("Codice provincia: " + codiceProvincia + ", progressivo del comune: " + progressivoComune
-						+ ", denominazione in italiano: " + denominazione + ", nome provincia: " + nomeProvincia);
-				// Comune newComune = new Comune(codiceProvincia, progressivoComune,
-				// denominazione, nomeProvincia);
-				Provincia provincia = provinciaRepo.findByNome(nomeProvincia);
-				if (provincia != null) {
-					// List<Comune> comuni = new ArrayList<>();
-					Comune newComune = new Comune(codiceProvincia, progressivoComune, denominazione, nomeProvincia, provincia);
-					// List<Comune> comuniConProvincia =
-					// comuneService.createComuniWithProvincia(comuni);
-					comuneRepo.save(newComune);
-				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
-
 }
