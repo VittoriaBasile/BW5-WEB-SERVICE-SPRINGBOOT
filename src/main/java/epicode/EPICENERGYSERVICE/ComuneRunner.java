@@ -31,6 +31,8 @@ public class ComuneRunner implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 
+		// OK
+
 		// try {
 		// CsvToBeanBuilder<Comune> beanBuilder = new CsvToBeanBuilder<>(
 		// new InputStreamReader(new FileInputStream("comuni-italiani.csv")));
@@ -101,16 +103,14 @@ public class ComuneRunner implements CommandLineRunner {
 				String denominazione = columns[2];
 				String nomeProvincia = columns[3];
 
-				System.out.println("Codice provincia: " + codiceProvincia + ", progressivo del comune: "
-						+ progressivoComune + ", denominazione in italiano: " + denominazione + ", nome provincia: "
-						+ nomeProvincia);
+				System.out.println("Codice provincia: " + codiceProvincia + ", progressivo del comune: " + progressivoComune
+						+ ", denominazione in italiano: " + denominazione + ", nome provincia: " + nomeProvincia);
 				// Comune newComune = new Comune(codiceProvincia, progressivoComune,
 				// denominazione, nomeProvincia);
 				Provincia provincia = provinciaRepo.findByNome(nomeProvincia);
 				if (provincia != null) {
 					// List<Comune> comuni = new ArrayList<>();
-					Comune newComune = new Comune(codiceProvincia, progressivoComune, denominazione, nomeProvincia,
-							provincia);
+					Comune newComune = new Comune(codiceProvincia, progressivoComune, denominazione, nomeProvincia, provincia);
 					// List<Comune> comuniConProvincia =
 					// comuneService.createComuniWithProvincia(comuni);
 					comuneRepo.save(newComune);
