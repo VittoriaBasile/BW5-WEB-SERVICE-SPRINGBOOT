@@ -1,6 +1,7 @@
 package epicode.EPICENERGYSERVICE.entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,10 +49,10 @@ public class Cliente {
 	@OneToMany(mappedBy = "cliente")
 	private List<Fattura> fatture;
 
-	public Cliente(int partitaIva, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo, String email,
-			String telefono, String pec, String emailContatto, String nomeContatto, String cognomeContatto,
-			String telefonoContatto, LocalDate dataInserimento, LocalDate dataUltimoContatto,
-			RagioneSociale ragioneSociale, double fatturatoAnnuo, List<Fattura> fatture) {
+	public Cliente(int partitaIva, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo, String email, String telefono,
+			String pec, String emailContatto, String nomeContatto, String cognomeContatto, String telefonoContatto,
+			LocalDate dataInserimento, LocalDate dataUltimoContatto, RagioneSociale ragioneSociale, double fatturatoAnnuo,
+			List<Fattura> fatture) {
 
 		this.partitaIva = partitaIva;
 		this.indirizzoLegale = indirizzoLegale;
@@ -66,8 +67,8 @@ public class Cliente {
 		this.dataInserimento = dataInserimento;
 		this.dataUltimoContatto = dataUltimoContatto;
 		this.ragioneSociale = ragioneSociale;
-		this.fatturatoAnnuo = fatturatoAnnuo;
-		this.fatture = fatture;
+		this.fatturatoAnnuo = 0.00;
+		this.fatture = new ArrayList<>();
 	}
 
 }

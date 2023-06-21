@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import epicode.EPICENERGYSERVICE.entities.Cliente;
-import epicode.EPICENERGYSERVICE.exceptions.BadRequestException;
 import epicode.EPICENERGYSERVICE.exceptions.NotFoundException;
 import epicode.EPICENERGYSERVICE.repositories.ClienteRepository;
 
@@ -23,11 +22,6 @@ public class ClienteService {
 
 	// ***** CREATE *****
 	public Cliente create(Cliente c) {
-		// se l'email è già presente nel DB lancio una eccezione
-		clienteRepo.findByEmail(c.getEmail()).ifPresent(cliente -> {
-			throw new BadRequestException("Email " + cliente.getEmail() + " already in use!");
-		});
-
 		Cliente newCliente = new Cliente(c.getPartitaIva(), c.getIndirizzoLegale(), c.getIndirizzoOperativo(), c.getEmail(),
 				c.getTelefono(), c.getPec(), c.getEmailContatto(), c.getNomeContatto(), c.getCognomeContatto(),
 				c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(), c.getRagioneSociale(), 0.00, c.getFatture());
@@ -36,7 +30,7 @@ public class ClienteService {
 	}
 
 	//***** READ *****
-	public Page<Cliente> readAll(int page, int size, String sortBy) {
+	public Page<Cliente> findAll(int page, int size, String sortBy) {
 		if (size < 0)
 			size = 0;
 		if (size > 100)
@@ -48,18 +42,18 @@ public class ClienteService {
 	}
 
 	// read by Id
-	public Cliente readById(UUID clienteId) throws NotFoundException {
+	public Cliente findById(UUID clienteId) throws NotFoundException {
 		return clienteRepo.findById(clienteId).orElseThrow(() -> new NotFoundException("Cliente non trovato"));
 	}
 
-	// read by email
-	public Cliente readByEmail(String email) throws NotFoundException {
-		return clienteRepo.findByEmail(email).orElseThrow(() -> new NotFoundException("Email non trovata!"));
+	// read by nome
+	public Cliente findByNome(String nome) throws NotFoundException {
+		return clienteRepo.findByNome(nome).orElseThrow(() -> new NotFoundException("Email non trovata!"));
 	}
 
 	//***** UPDATE *****
 	public Cliente update(UUID clienteId, Cliente c) throws NotFoundException {
-		Cliente clienteFound = this.readById(clienteId);
+		Cliente clienteFound = this.findById(clienteId);
 
 		clienteFound.setId(clienteId);
 		clienteFound.setPartitaIva(c.getPartitaIva());
@@ -72,7 +66,6 @@ public class ClienteService {
 		clienteFound.setNomeContatto(c.getNomeContatto());
 		clienteFound.setCognomeContatto(c.getCognomeContatto());
 		clienteFound.setTelefonoContatto(c.getTelefonoContatto());
-		clienteFound.setDataInserimento(c.getDataInserimento());
 		clienteFound.setDataUltimoContatto(c.getDataUltimoContatto());
 		clienteFound.setRagioneSociale(c.getRagioneSociale());
 		clienteFound.setFatturatoAnnuo(c.getFatturatoAnnuo());
@@ -83,7 +76,7 @@ public class ClienteService {
 
 	//***** DELETE *****
 	public void delete(UUID clienteId) throws NotFoundException {
-		Cliente clienteFound = this.readById(clienteId);
+		Cliente clienteFound = this.findById(clienteId);
 
 		clienteRepo.delete(clienteFound);
 	}

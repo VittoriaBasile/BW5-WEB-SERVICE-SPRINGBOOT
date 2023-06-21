@@ -11,6 +11,6 @@ import epicode.EPICENERGYSERVICE.entities.Cliente;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
 
-	public Optional<Cliente> findByEmail(String email);
+	public Optional<Cliente> findByNome(String nome);
 
 }
