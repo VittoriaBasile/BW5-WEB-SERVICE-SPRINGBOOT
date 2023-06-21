@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import epicode.EPICENERGYSERVICE.auth.payloads.AuthenticationSuccessfullPayload;
-import epicode.EPICENERGYSERVICE.entities.Role;
-import epicode.EPICENERGYSERVICE.entities.TipoRole;
 import epicode.EPICENERGYSERVICE.entities.User;
 import epicode.EPICENERGYSERVICE.exceptions.NotFoundException;
 import epicode.EPICENERGYSERVICE.exceptions.UnauthorizedException;
 import epicode.EPICENERGYSERVICE.payloads.UserCreatePayload;
 import epicode.EPICENERGYSERVICE.payloads.UserLoginPayload;
+import epicode.EPICENERGYSERVICE.repositories.RoleRepository;
 import epicode.EPICENERGYSERVICE.services.UsersService;
 
 @RestController
@@ -28,6 +27,8 @@ public class AuthController {
 	UsersService usersService;
 	@Autowired
 	private PasswordEncoder bcrypt;
+	@Autowired
+	RoleRepository roleRepo;
 
 	@PostMapping("/register")
 	public ResponseEntity<User> register(@RequestBody @Validated UserCreatePayload body) {
@@ -35,10 +36,10 @@ public class AuthController {
 		body.setPassword(bcrypt.encode(body.getPassword()));
 
 		User createdUser = usersService.create(body);
-		Role userRole = new Role();
-		userRole.setTipo(TipoRole.USER);
-
-		createdUser.getRole().add(userRole);
+		Ruolo // ruoloDefault = roleRepo.findByTipo("USER")
+				.orElseThrow(() -> new NotFoundException("Ruolo USER non esiste!!"));
+		// userRole.setTipo(TipoRole.USER);
+		createdUser.getRole().add(ruoloDefault);
 		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
 	}
 
