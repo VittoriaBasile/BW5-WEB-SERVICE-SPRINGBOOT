@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import epicode.EPICENERGYSERVICE.auth.payloads.AuthenticationSuccessfullPayload;
-import epicode.EPICENERGYSERVICE.entities.Role;
 import epicode.EPICENERGYSERVICE.entities.User;
 import epicode.EPICENERGYSERVICE.exceptions.NotFoundException;
 import epicode.EPICENERGYSERVICE.exceptions.UnauthorizedException;
@@ -37,24 +36,6 @@ public class AuthController {
 		body.setPassword(bcrypt.encode(body.getPassword()));
 
 		User createdUser = usersService.create(body);
-
-		System.out.println(createdUser);
-
-		Role ruoloDefault = roleRepo.findByTipo("USER").orElseThrow(() -> new NotFoundException("Ruolo USER non esiste!!"));
-		System.out.println(ruoloDefault);
-
-		//		Role userRole = new Role();
-		//		userRole.setTipo("USER");
-		//		createdUser.getRoles().add(userRole);
-
-		//ruoloDefault.getUsers().add(createdUser);
-
-		roleRepo.save(ruoloDefault);
-
-		createdUser.setRole(ruoloDefault);
-
-		System.out.println(createdUser);
-		//createdUser.getRoles().add(ruoloDefault);
 
 		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
 	}

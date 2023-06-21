@@ -22,10 +22,9 @@ public class RoleRunner implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// TODO Auto-generated method stub
 
 		if (roleService.findAll().size() == 0) {
-			String[] tipiDefault = new String[] { "USER", "ADMIN"};
+			String[] tipiDefault = new String[] { "USER", "ADMIN" };
 
 			for (String tipo : tipiDefault) {
 				Role newRole = new Role(tipo);

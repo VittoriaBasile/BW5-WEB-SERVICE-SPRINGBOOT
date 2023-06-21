@@ -14,8 +14,4 @@ public interface RoleRepository extends JpaRepository<Role, UUID> {
 
 	Optional<Role> findByTipo(String tipo);
 
-	//	Optional<Role> findByUser(String User);
-	//
-	//	Optional<Role> findByAdmin(String Admin);
-
 }

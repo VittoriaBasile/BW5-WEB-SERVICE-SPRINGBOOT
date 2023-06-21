@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import epicode.EPICENERGYSERVICE.entities.Role;
 import epicode.EPICENERGYSERVICE.entities.User;
 import epicode.EPICENERGYSERVICE.exceptions.BadRequestException;
 import epicode.EPICENERGYSERVICE.exceptions.NotFoundException;
@@ -27,12 +28,18 @@ public class UsersService {
 		usersRepo.findByEmail(u.getEmail()).ifPresent(user -> {
 			throw new BadRequestException("Email " + user.getEmail() + " already in use!");
 		});
+
 		User newUser = new User(u.getNome(), u.getCognome(), u.getUsername(), u.getEmail(), u.getPassword());
 
-		//		Role userRole = new Role();
-		//		userRole.setTipo(TipoRole.USER);
-		//		newUser.getRole().add(userRole);
-		return usersRepo.save(newUser);
+		Role ruoloDefault = roleRepo.findByTipo("USER").orElseThrow(() -> new NotFoundException("Ruolo USER non esiste!!"));
+		newUser.setRole(ruoloDefault);
+
+		newUser = usersRepo.save(newUser); // Salva l'utente
+
+		ruoloDefault.getUsers().add(newUser); // Aggiungi l'utente alla lista di utenti associati al ruolo
+		roleRepo.save(ruoloDefault); // Salva il ruolo con l'utente aggiunto
+
+		return newUser;
 	}
 
 	public Page<User> find(int page, int size, String sortBy) {

@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -32,13 +34,10 @@ public class User implements UserDetails {
 	private String email;
 	private String password;
 	@ManyToOne
+	@JsonIgnore
 	private Role role;
-	//	@ManyToMany(fetch = FetchType.EAGER)
-	//	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	//private List<Role> roles = new ArrayList<>();
 
 	public User(String nome, String cognome, String username, String email, String password) {
-
 		this.nome = nome;
 		this.cognome = cognome;
 		this.username = username;
