@@ -1,6 +1,5 @@
 package epicode.EPICENERGYSERVICE.repositories;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +11,6 @@ import epicode.EPICENERGYSERVICE.entities.Role;
 
 public interface RoleRepository extends JpaRepository<Role, UUID> {
 
-	Optional<Role> findByTipo(String tipo);
+	Role findByTipo(String tipo);
 
 }

@@ -14,7 +14,7 @@ import epicode.EPICENERGYSERVICE.services.RoleService;
 public class RoleRunner implements CommandLineRunner {
 
 	@Autowired
-	//RoleRepository roleRepo;
+	// RoleRepository roleRepo;
 	RoleService roleService;
 
 	@Autowired
@@ -23,7 +23,7 @@ public class RoleRunner implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		if (roleService.findAll().size() == 0) {
+		if (roleService.find().size() == 0) {
 			String[] tipiDefault = new String[] { "USER", "ADMIN" };
 
 			for (String tipo : tipiDefault) {

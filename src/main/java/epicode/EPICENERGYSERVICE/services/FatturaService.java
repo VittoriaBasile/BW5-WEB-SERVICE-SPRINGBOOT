@@ -1,7 +1,7 @@
 package epicode.EPICENERGYSERVICE.services;
 
-import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,29 +54,39 @@ public class FatturaService {
 //				.orElseThrow(() -> new NotFoundException("Cliente con Id:" + id + "non trovato!!"));
 //	}
 
-	public Fattura findByState(StatoFattura statoFattura) throws NotFoundException {
-		return fatturaRepo.findByState(statoFattura)
-				.orElseThrow(() -> new NotFoundException("Stato fattura:" + statoFattura + "non esistente!!"));
+	public List<Fattura> findByStato(StatoFattura stato) throws NotFoundException {
+		List<Fattura> fatture = fatturaRepo.findByStatoFattura(stato);
+		if (fatture.isEmpty()) {
+			throw new NotFoundException("Nessuna fattura trovata con stato " + stato);
+		}
+		return fatture;
+	}
+
+	public List<Fattura> findByData(Date data) throws NotFoundException {
+		List<Fattura> fatture = fatturaRepo.findByData(data);
+		if (fatture.isEmpty()) {
+			throw new NotFoundException("Nessuna fattura trovata in data " + data);
+		}
+		return fatture;
+	}
+
+	public List<Fattura> findByAnno(int anno) throws NotFoundException {
+		List<Fattura> fatture = fatturaRepo.findByAnno(anno);
+		if (fatture.isEmpty()) {
+			throw new NotFoundException("Nessuna fattura trovata nell' anno " + anno);
+		}
+		return fatture;
 
 	}
 
-	public Fattura findByData(Date dataFattura) throws NotFoundException {
-		return fatturaRepo.findByData(dataFattura)
-				.orElseThrow(() -> new NotFoundException("Data fattura:" + dataFattura + "non trovata!!"));
-
-	}
-
-	public Fattura findByAnno(int annoFattura) throws NotFoundException {
-		return fatturaRepo.findByAnno(annoFattura)
-				.orElseThrow(() -> new NotFoundException("Anno fattura:" + annoFattura + "non trovato!!"));
-
-	}
-
-	public Fattura findByImporto(BigDecimal importoFattura) throws NotFoundException {
-		return fatturaRepo.findByImporto(importoFattura)
-				.orElseThrow(() -> new NotFoundException("Importo fattura:" + importoFattura + "non trovato!!"));
-
-	}
+//	public List<Fattura> findByImporti(BigDecimal importoMinimo, BigDecimal importoMassimo) throws NotFoundException {
+//		List<Fattura> fatture = fatturaRepo.findByImportoRange(importoMinimo, importoMassimo);
+//		if (fatture.isEmpty()) {
+//			throw new NotFoundException(
+//					"Nessuna fattura trovata con importo compreso tra " + importoMinimo + " e " + importoMassimo);
+//		}
+//		return fatture;
+//	}
 
 	public Fattura findByIdAndUpdate(UUID id, Fattura f) throws NotFoundException {
 		Fattura found = this.findById(id);

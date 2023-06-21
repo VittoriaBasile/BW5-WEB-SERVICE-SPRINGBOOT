@@ -1,44 +1,57 @@
 package epicode.EPICENERGYSERVICE.services;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import epicode.EPICENERGYSERVICE.entities.Role;
-import epicode.EPICENERGYSERVICE.repositories.RoleRepository;
+import epicode.EPICENERGYSERVICE.exceptions.BadRequestException;
+import epicode.EPICENERGYSERVICE.exceptions.NotFoundException;
 
 @Service
 public class RoleService {
-	private RoleRepository roleRepository;
+	private RoleService roleService;
 
-	public RoleService(RoleRepository roleRepository) {
-		this.roleRepository = roleRepository;
+	public Role create(Role r) {
+		roleService.findByTipoRuolo(r.getTipo()).ifPresent(role -> {
+			throw new BadRequestException("Tipo ruolo" + r.getTipo() + " already in exist!");
+		});
+
+		Role newRole = new Role(r.getTipo());
+
+		return newRole;
+	}
+
+	public List<Role> find() {
+
+		return roleRepo.findAll();
 	}
 
 	public Role findById(UUID id) {
-		Optional<Role> optionalRole = roleRepository.findById(id);
-		return optionalRole.orElse(null);
+
+		return roleRepo.findById(id).orElseThrow(() -> new NotFoundException("Ruolo con Id:" + id + "non trovato!!"));
+
 	}
 
-	public List<Role> findAll() {
-		return roleRepository.findAll();
+	public Role findByTipoRuolo(String tipo) {
+		return roleRepo.findByTipo(tipo)
+				.orElseThrow(() -> new NotFoundException("Ruolo di tipo:" + tipo + "non trovato!!"));
+
 	}
 
-	//	public Optional<Role> findByUser(String user) {
-	//		return roleRepository.findByUser(user);
-	//	}
-	//
-	//	public Optional<Role> findByAdmin(String admin) {
-	//		return roleRepository.findByAdmin(admin);
-	//	}
+	public Role findByIdAndUpdate(UUID id, Role r) throws NotFoundException {
+		Role found = this.findById(id);
 
-	public Role create(Role role) {
-		return roleRepository.save(role);
+		found.setId(id);
+		found.setTipo(r.getTipo());
+
+		return roleRepo.save(found);
 	}
 
-	public void deleteById(UUID id) {
-		roleRepository.deleteById(id);
+	public void findByIdAndDelete(UUID id) throws NotFoundException {
+		Role found = this.findById(id);
+		roleRepo.delete(found);
 	}
+
 }
