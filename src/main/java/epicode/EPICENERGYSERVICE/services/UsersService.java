@@ -13,18 +13,25 @@ import epicode.EPICENERGYSERVICE.entities.User;
 import epicode.EPICENERGYSERVICE.exceptions.BadRequestException;
 import epicode.EPICENERGYSERVICE.exceptions.NotFoundException;
 import epicode.EPICENERGYSERVICE.payloads.UserCreatePayload;
+import epicode.EPICENERGYSERVICE.repositories.RoleRepository;
 import epicode.EPICENERGYSERVICE.repositories.UsersRepository;
 
 @Service
 public class UsersService {
 	@Autowired
 	private UsersRepository usersRepo;
+	@Autowired
+	RoleRepository roleRepo;
 
 	public User create(UserCreatePayload u) {
 		usersRepo.findByEmail(u.getEmail()).ifPresent(user -> {
 			throw new BadRequestException("Email " + user.getEmail() + " already in use!");
 		});
 		User newUser = new User(u.getNome(), u.getCognome(), u.getUsername(), u.getEmail(), u.getPassword());
+
+//		Role userRole = new Role();
+//		userRole.setTipo(TipoRole.USER);
+//		newUser.getRole().add(userRole);
 		return usersRepo.save(newUser);
 	}
 

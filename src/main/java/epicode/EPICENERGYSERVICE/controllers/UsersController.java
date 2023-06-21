@@ -39,7 +39,7 @@ public class UsersController {
 
 	@PostMapping("")
 	@ResponseStatus(HttpStatus.CREATED)
-	@PostAuthorize("hasRole('ADMIN')")
+	// @PostAuthorize("hasRole('ADMIN')")
 	public User saveUser(@RequestBody @Validated UserCreatePayload body) {
 		return usersService.create(body);
 	}

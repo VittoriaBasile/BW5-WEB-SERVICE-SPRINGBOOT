@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import epicode.EPICENERGYSERVICE.auth.payloads.AuthenticationSuccessfullPayload;
+import epicode.EPICENERGYSERVICE.entities.Role;
+import epicode.EPICENERGYSERVICE.entities.TipoRole;
 import epicode.EPICENERGYSERVICE.entities.User;
 import epicode.EPICENERGYSERVICE.exceptions.NotFoundException;
 import epicode.EPICENERGYSERVICE.exceptions.UnauthorizedException;
@@ -31,7 +33,12 @@ public class AuthController {
 	public ResponseEntity<User> register(@RequestBody @Validated UserCreatePayload body) {
 
 		body.setPassword(bcrypt.encode(body.getPassword()));
+
 		User createdUser = usersService.create(body);
+		Role userRole = new Role();
+		userRole.setTipo(TipoRole.USER);
+
+		createdUser.getRole().add(userRole);
 		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
 	}
 

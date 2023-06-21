@@ -31,5 +31,6 @@ public class UserCreatePayload {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+
 	}
 }

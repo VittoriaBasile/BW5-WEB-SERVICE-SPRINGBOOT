@@ -1,5 +1,6 @@
 package epicode.EPICENERGYSERVICE.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +34,7 @@ public class User implements UserDetails {
 	private String email;
 	private String password;
 	@ManyToMany
-	private List<Role> role;
+	private List<Role> role = new ArrayList<>();
 
 	public User(String nome, String cognome, String username, String email, String password) {
 
@@ -42,6 +43,7 @@ public class User implements UserDetails {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+
 	}
 
 	@Override
