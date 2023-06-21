@@ -5,8 +5,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +24,7 @@ import epicode.EPICENERGYSERVICE.services.UsersService;
 
 @RestController
 @RequestMapping("/users")
-@PreAuthorize("hasRole('USER')")
+//@PreAuthorize("hasRole('USER')")
 public class UsersController {
 	@Autowired
 	private UsersService usersService;
@@ -50,14 +48,14 @@ public class UsersController {
 	}
 
 	@PutMapping("/{userId}")
-	@PostAuthorize("hasRole('ADMIN')")
+	// @PostAuthorize("hasRole('ADMIN')")
 	public User updateUser(@PathVariable UUID userId, @RequestBody UserCreatePayload body) throws Exception {
 		return usersService.findByIdAndUpdate(userId, body);
 	}
 
 	@DeleteMapping("/{userId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@PostAuthorize("hasRole('ADMIN')")
+	// @PreAuthorize("hasAuthority('USER')")
 	public void deleteUser(@PathVariable UUID userId) throws NotFoundException {
 		usersService.findByIdAndDelete(userId);
 	}

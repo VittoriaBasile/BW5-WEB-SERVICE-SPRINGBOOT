@@ -32,6 +32,12 @@ public class SecurityConfig {
 		// http.authorizeHttpRequests(auth ->
 		// auth.requestMatchers("/users/**").hasRole("ADMIN"));
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/users/**").authenticated());
+		// http.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET,
+		// "/users/**").hasAuthority("USER"));
+		// http.authorizeHttpRequests(auth ->
+		// auth.requestMatchers("/users/**").hasAuthority("ADMIN"));
+		// http.authorizeHttpRequests(auth ->
+		// auth.requestMatchers("/users/**").hasRole("USER"));
 
 		// http.addFilterBefore(exceptionHandlerFilter, JWTAuthFilter.class);
 		http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,12 +1,15 @@
 package epicode.EPICENERGYSERVICE.entities;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +27,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties({ "isAccountNonLocked", "isEnabled", "isCredentialsNonExpired", "authorities" })
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue
@@ -37,47 +41,52 @@ public class User implements UserDetails {
 	@JsonIgnore
 	private Role role;
 
+	private boolean isEnabled;
+	private boolean isCredentialsNonExpired;
+	private boolean isAccountNonExpired;
+	private boolean isAccountNonLocked;
+
 	public User(String nome, String cognome, String username, String email, String password) {
 		this.nome = nome;
 		this.cognome = cognome;
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.isEnabled = true;
+		this.isAccountNonExpired = true;
+		this.isCredentialsNonExpired = true;
+		this.isAccountNonLocked = true;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return List.of(new SimpleGrantedAuthority(role.getTipo()));
 	}
 
 	public String getEmail() {
-		// TODO Auto-generated method stub
+
 		return this.email;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isAccountNonExpired;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isAccountNonLocked;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isCredentialsNonExpired;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isEnabled;
 	}
 
 }
