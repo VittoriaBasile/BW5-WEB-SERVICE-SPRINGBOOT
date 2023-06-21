@@ -38,9 +38,23 @@ public class AuthController {
 
 		User createdUser = usersService.create(body);
 
+		System.out.println(createdUser);
+
 		Role ruoloDefault = roleRepo.findByTipo("USER").orElseThrow(() -> new NotFoundException("Ruolo USER non esiste!!"));
+		System.out.println(ruoloDefault);
+
+		//		Role userRole = new Role();
+		//		userRole.setTipo("USER");
+		//		createdUser.getRoles().add(userRole);
+
+		//ruoloDefault.getUsers().add(createdUser);
+
+		roleRepo.save(ruoloDefault);
+
 		createdUser.setRole(ruoloDefault);
-		//createdUser.getRole().add(ruoloDefault);
+
+		System.out.println(createdUser);
+		//createdUser.getRoles().add(ruoloDefault);
 
 		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
 	}
