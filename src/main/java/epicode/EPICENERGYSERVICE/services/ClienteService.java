@@ -47,8 +47,8 @@ public class ClienteService {
 	}
 
 	// read by nome
-	public Cliente findByNome(String nome) throws NotFoundException {
-		return clienteRepo.findByNome(nome).orElseThrow(() -> new NotFoundException("Email non trovata!"));
+	public Cliente findByNome(String email) throws NotFoundException {
+		return clienteRepo.findByEmail(email).orElseThrow(() -> new NotFoundException("Email non trovata!"));
 	}
 
 	//***** UPDATE *****
