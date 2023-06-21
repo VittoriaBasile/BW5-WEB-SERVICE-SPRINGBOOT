@@ -1,8 +1,6 @@
 package epicode.EPICENERGYSERVICE.entities;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,8 +31,8 @@ public class User implements UserDetails {
 	private String username;
 	private String email;
 	private String password;
-	@ManyToMany
-	private List<Role> role = new ArrayList<>();
+	@ManyToOne
+	private Role role;
 
 	public User(String nome, String cognome, String username, String email, String password) {
 
@@ -43,7 +41,6 @@ public class User implements UserDetails {
 		this.username = username;
 		this.email = email;
 		this.password = password;
-
 	}
 
 	@Override

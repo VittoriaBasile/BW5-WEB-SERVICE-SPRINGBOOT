@@ -26,15 +26,15 @@ public class RoleService {
 		return roleRepository.findAll();
 	}
 
-//	public Optional<Role> findByUser(String user) {
-//		return roleRepository.findByUser(user);
-//	}
-//
-//	public Optional<Role> findByAdmin(String admin) {
-//		return roleRepository.findByAdmin(admin);
-//	}
+	//	public Optional<Role> findByUser(String user) {
+	//		return roleRepository.findByUser(user);
+	//	}
+	//
+	//	public Optional<Role> findByAdmin(String admin) {
+	//		return roleRepository.findByAdmin(admin);
+	//	}
 
-	public Role save(Role role) {
+	public Role create(Role role) {
 		return roleRepository.save(role);
 	}
 

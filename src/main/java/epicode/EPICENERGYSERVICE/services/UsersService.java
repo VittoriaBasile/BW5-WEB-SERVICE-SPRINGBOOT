@@ -29,9 +29,9 @@ public class UsersService {
 		});
 		User newUser = new User(u.getNome(), u.getCognome(), u.getUsername(), u.getEmail(), u.getPassword());
 
-//		Role userRole = new Role();
-//		userRole.setTipo(TipoRole.USER);
-//		newUser.getRole().add(userRole);
+		//		Role userRole = new Role();
+		//		userRole.setTipo(TipoRole.USER);
+		//		newUser.getRole().add(userRole);
 		return usersRepo.save(newUser);
 	}
 
