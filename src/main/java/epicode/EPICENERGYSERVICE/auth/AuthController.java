@@ -16,7 +16,6 @@ import epicode.EPICENERGYSERVICE.exceptions.NotFoundException;
 import epicode.EPICENERGYSERVICE.exceptions.UnauthorizedException;
 import epicode.EPICENERGYSERVICE.payloads.UserCreatePayload;
 import epicode.EPICENERGYSERVICE.payloads.UserLoginPayload;
-import epicode.EPICENERGYSERVICE.repositories.RoleRepository;
 import epicode.EPICENERGYSERVICE.services.UsersService;
 
 @RestController
@@ -25,10 +24,12 @@ public class AuthController {
 
 	@Autowired
 	UsersService usersService;
+
 	@Autowired
 	private PasswordEncoder bcrypt;
-	@Autowired
-	RoleRepository roleRepo;
+
+	//@Autowired
+	//RoleRepository roleRepo;
 
 	@PostMapping("/register")
 	public ResponseEntity<User> register(@RequestBody @Validated UserCreatePayload body) {

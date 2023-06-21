@@ -19,10 +19,12 @@ import epicode.EPICENERGYSERVICE.repositories.UsersRepository;
 
 @Service
 public class UsersService {
+
 	@Autowired
 	private UsersRepository usersRepo;
+
 	@Autowired
-	RoleRepository roleRepo;
+	private RoleRepository roleRepo;
 
 	public User create(UserCreatePayload u) {
 		usersRepo.findByEmail(u.getEmail()).ifPresent(user -> {
@@ -31,15 +33,15 @@ public class UsersService {
 
 		User newUser = new User(u.getNome(), u.getCognome(), u.getUsername(), u.getEmail(), u.getPassword());
 
-		Role ruoloDefault = roleRepo.findByTipo("USER").orElseThrow(() -> new NotFoundException("Ruolo USER non esiste!!"));
-		newUser.setRole(ruoloDefault);
+		Role roleDefault = roleRepo.findByNome("USER").orElseThrow(() -> new NotFoundException("Ruolo USER non esiste!!"));
+		newUser.getRoles().add(roleDefault);
 
-		newUser = usersRepo.save(newUser); // Salva l'utente
+		//newUser = usersRepo.save(newUser); // Salva l'utente
 
-		ruoloDefault.getUsers().add(newUser); // Aggiungi l'utente alla lista di utenti associati al ruolo
-		roleRepo.save(ruoloDefault); // Salva il ruolo con l'utente aggiunto
+		//ruoloDefault.getUsers().add(newUser); // Aggiungi l'utente alla lista di utenti associati al ruolo
+		//roleRepo.save(ruoloDefault); // Salva il ruolo con l'utente aggiunto
 
-		return newUser;
+		return usersRepo.save(newUser);
 	}
 
 	public Page<User> find(int page, int size, String sortBy) {

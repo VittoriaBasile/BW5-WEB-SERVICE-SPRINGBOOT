@@ -6,8 +6,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import epicode.EPICENERGYSERVICE.entities.Role;
-import epicode.EPICENERGYSERVICE.repositories.UsersRepository;
-import epicode.EPICENERGYSERVICE.services.RoleService;
+import epicode.EPICENERGYSERVICE.repositories.RoleRepository;
 
 @Component
 @Order(0)
@@ -15,20 +14,20 @@ public class RoleRunner implements CommandLineRunner {
 
 	@Autowired
 	//RoleRepository roleRepo;
-	RoleService roleService;
+	RoleRepository roleRepo;
 
-	@Autowired
-	UsersRepository usersRepo;
+	//@Autowired
+	//UsersRepository usersRepo;
 
 	@Override
 	public void run(String... args) throws Exception {
 
-		if (roleService.findAll().size() == 0) {
-			String[] tipiDefault = new String[] { "USER", "ADMIN" };
+		if (roleRepo.count() == 0) {
+			String[] rolesDefault = new String[] { "USER", "ADMIN" };
 
-			for (String tipo : tipiDefault) {
-				Role newRole = new Role(tipo);
-				roleService.create(newRole);
+			for (String role : rolesDefault) {
+				Role newRole = new Role(role);
+				roleRepo.save(newRole);
 			}
 		}
 
