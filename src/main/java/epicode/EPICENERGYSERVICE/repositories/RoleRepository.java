@@ -10,5 +10,8 @@ import epicode.EPICENERGYSERVICE.entities.Role;
 @Repository
 
 public interface RoleRepository extends JpaRepository<Role, UUID> {
+//	Optional<Role> findByUser(String User);
+//
+//	Optional<Role> findByAdmin(String Admin);
 
 }
