@@ -8,13 +8,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +25,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-@JsonIgnoreProperties({ "isAccountNonLocked", "isEnabled", "isCredentialsNonExpired", "authorities" })
+//@JsonIgnoreProperties({ "isAccountNonLocked", "isEnabled", "isCredentialsNonExpired", "authorities" })
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue
@@ -37,14 +35,16 @@ public class User implements UserDetails {
 	private String username;
 	private String email;
 	private String password;
-	@ManyToOne
-	@JsonIgnore
-	private Role role;
 
-	private boolean isEnabled;
-	private boolean isCredentialsNonExpired;
-	private boolean isAccountNonExpired;
-	private boolean isAccountNonLocked;
+	//	@ManyToOne
+	//	@JsonIgnore
+	@Enumerated(EnumType.STRING)
+	private TipoRole role;
+
+	//	private boolean isEnabled;
+	//	private boolean isCredentialsNonExpired;
+	//	private boolean isAccountNonExpired;
+	//	private boolean isAccountNonLocked;
 
 	public User(String nome, String cognome, String username, String email, String password) {
 		this.nome = nome;
@@ -52,16 +52,16 @@ public class User implements UserDetails {
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.isEnabled = true;
-		this.isAccountNonExpired = true;
-		this.isCredentialsNonExpired = true;
-		this.isAccountNonLocked = true;
+		role = TipoRole.USER;
+		//		this.isEnabled = true;
+		//		this.isAccountNonExpired = true;
+		//		this.isCredentialsNonExpired = true;
+		//		this.isAccountNonLocked = true;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-
-		return List.of(new SimpleGrantedAuthority(role.getTipo()));
+		return List.of(new SimpleGrantedAuthority(role.name()));
 	}
 
 	public String getEmail() {
@@ -71,22 +71,26 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return this.isAccountNonExpired;
+		//		return this.isAccountNonExpired;
+		return false;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return this.isAccountNonLocked;
+		//		return this.isAccountNonLocked;
+		return false;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return this.isCredentialsNonExpired;
+		//		return this.isCredentialsNonExpired;
+		return false;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return this.isEnabled;
+		//		return this.isEnabled;
+		return false;
 	}
 
 }

@@ -12,26 +12,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import epicode.EPICENERGYSERVICE.exceptions.ExceptionHandlerFilter;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 	@Autowired
 	JWTAuthFilter jwtAuthFilter;
+
 	@Autowired
-	ExceptionHandlerFilter exceptionHandlerFilter;
+	CorsFilter corsFilter;
+
+	//	@Autowired
+	//	ExceptionHandlerFilter exceptionHandlerFilter;
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.cors(c -> c.disable());
+		// http.cors(c -> c.disable());
 		http.csrf(c -> c.disable());
 
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll());
+		http.authorizeHttpRequests(auth -> auth.requestMatchers("/users/**").authenticated());
 		// http.authorizeHttpRequests(auth ->
 		// auth.requestMatchers("/users/**").hasRole("ADMIN"));
-		http.authorizeHttpRequests(auth -> auth.requestMatchers("/users/**").authenticated());
 		// http.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET,
 		// "/users/**").hasAuthority("USER"));
 		// http.authorizeHttpRequests(auth ->
@@ -41,6 +43,7 @@ public class SecurityConfig {
 
 		// http.addFilterBefore(exceptionHandlerFilter, JWTAuthFilter.class);
 		http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(corsFilter, JWTAuthFilter.class);
 
 		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

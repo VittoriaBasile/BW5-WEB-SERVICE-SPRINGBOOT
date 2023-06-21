@@ -9,20 +9,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import epicode.EPICENERGYSERVICE.entities.Role;
 import epicode.EPICENERGYSERVICE.entities.User;
 import epicode.EPICENERGYSERVICE.exceptions.BadRequestException;
 import epicode.EPICENERGYSERVICE.exceptions.NotFoundException;
 import epicode.EPICENERGYSERVICE.payloads.UserCreatePayload;
-import epicode.EPICENERGYSERVICE.repositories.RoleRepository;
+import epicode.EPICENERGYSERVICE.payloads.UserUpdatePayload;
 import epicode.EPICENERGYSERVICE.repositories.UsersRepository;
 
 @Service
 public class UsersService {
 	@Autowired
-	private UsersRepository usersRepo;
-	@Autowired
-	RoleRepository roleRepo;
+	UsersRepository usersRepo;
+	//	@Autowired
+	//	RoleRepository roleRepo;
 
 	public User create(UserCreatePayload u) {
 		usersRepo.findByEmail(u.getEmail()).ifPresent(user -> {
@@ -31,15 +30,15 @@ public class UsersService {
 
 		User newUser = new User(u.getNome(), u.getCognome(), u.getUsername(), u.getEmail(), u.getPassword());
 
-		Role ruoloDefault = roleRepo.findByTipo("USER").orElseThrow(() -> new NotFoundException("Ruolo USER non esiste!!"));
-		newUser.setRole(ruoloDefault);
+		//		Role ruoloDefault = roleRepo.findByTipo("USER").orElseThrow(() -> new NotFoundException("Ruolo USER non esiste!!"));
+		//		newUser.setRole(ruoloDefault);
+		//
+		//		newUser = usersRepo.save(newUser); // Salva l'utente
+		//
+		//		ruoloDefault.getUsers().add(newUser); // Aggiungi l'utente alla lista di utenti associati al ruolo
+		//		roleRepo.save(ruoloDefault); // Salva il ruolo con l'utente aggiunto
 
-		newUser = usersRepo.save(newUser); // Salva l'utente
-
-		ruoloDefault.getUsers().add(newUser); // Aggiungi l'utente alla lista di utenti associati al ruolo
-		roleRepo.save(ruoloDefault); // Salva il ruolo con l'utente aggiunto
-
-		return newUser;
+		return usersRepo.save(newUser);
 	}
 
 	public Page<User> find(int page, int size, String sortBy) {
@@ -67,15 +66,16 @@ public class UsersService {
 				.orElseThrow(() -> new NotFoundException("Utete:" + username + "non trovato!!"));
 	}
 
-	public User findByIdAndUpdate(UUID id, UserCreatePayload u) throws NotFoundException {
+	public User findByIdAndUpdate(UUID id, UserUpdatePayload u) throws NotFoundException {
 		User found = this.findById(id);
 
 		found.setId(id);
 		found.setNome(u.getNome());
 		found.setCognome(u.getCognome());
 		found.setUsername(u.getUsername());
-		found.setEmail(u.getEmail());
+		found.setEmail(found.getEmail());
 		found.setPassword(u.getPassword());
+		found.setRole(u.getRole());
 
 		return usersRepo.save(found);
 	}
