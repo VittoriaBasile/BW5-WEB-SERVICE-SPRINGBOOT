@@ -3,6 +3,7 @@ package epicode.EPICENERGYSERVICE.auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,6 +16,7 @@ import epicode.EPICENERGYSERVICE.exceptions.ExceptionHandlerFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 	@Autowired
 	JWTAuthFilter jwtAuthFilter;
@@ -27,7 +29,8 @@ public class SecurityConfig {
 		http.csrf(c -> c.disable());
 
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll());
-		//		http.authorizeHttpRequests(auth -> auth.requestMatchers("/users/**").hasRole("ADMIN"));
+		// http.authorizeHttpRequests(auth ->
+		// auth.requestMatchers("/users/**").hasRole("ADMIN"));
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/users/**").authenticated());
 
 		// http.addFilterBefore(exceptionHandlerFilter, JWTAuthFilter.class);
