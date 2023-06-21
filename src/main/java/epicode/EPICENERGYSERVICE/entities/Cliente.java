@@ -28,6 +28,7 @@ public class Cliente {
 	@Id
 	@GeneratedValue
 	private UUID id;
+	private String nome;
 	private int partitaIva;
 	@OneToOne
 	private Indirizzo indirizzoLegale;
@@ -49,11 +50,12 @@ public class Cliente {
 	@OneToMany(mappedBy = "cliente")
 	private List<Fattura> fatture;
 
-	public Cliente(int partitaIva, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo, String email, String telefono,
-			String pec, String emailContatto, String nomeContatto, String cognomeContatto, String telefonoContatto,
-			LocalDate dataInserimento, LocalDate dataUltimoContatto, RagioneSociale ragioneSociale, double fatturatoAnnuo,
-			List<Fattura> fatture) {
+	public Cliente(String nome, int partitaIva, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo, String email,
+			String telefono, String pec, String emailContatto, String nomeContatto, String cognomeContatto,
+			String telefonoContatto, LocalDate dataInserimento, LocalDate dataUltimoContatto, RagioneSociale ragioneSociale,
+			double fatturatoAnnuo, List<Fattura> fatture) {
 
+		this.nome = nome;
 		this.partitaIva = partitaIva;
 		this.indirizzoLegale = indirizzoLegale;
 		this.indirizzoOperativo = indirizzoOperativo;

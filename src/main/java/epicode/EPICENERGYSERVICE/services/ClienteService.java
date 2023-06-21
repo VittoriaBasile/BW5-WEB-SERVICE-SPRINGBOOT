@@ -22,8 +22,8 @@ public class ClienteService {
 
 	// ***** CREATE *****
 	public Cliente create(Cliente c) {
-		Cliente newCliente = new Cliente(c.getPartitaIva(), c.getIndirizzoLegale(), c.getIndirizzoOperativo(), c.getEmail(),
-				c.getTelefono(), c.getPec(), c.getEmailContatto(), c.getNomeContatto(), c.getCognomeContatto(),
+		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), c.getIndirizzoLegale(), c.getIndirizzoOperativo(),
+				c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(), c.getNomeContatto(), c.getCognomeContatto(),
 				c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(), c.getRagioneSociale(), 0.00, c.getFatture());
 
 		return clienteRepo.save(newCliente);
@@ -56,6 +56,7 @@ public class ClienteService {
 		Cliente clienteFound = this.findById(clienteId);
 
 		clienteFound.setId(clienteId);
+		clienteFound.setNome(c.getNome());
 		clienteFound.setPartitaIva(c.getPartitaIva());
 		clienteFound.setIndirizzoLegale(c.getIndirizzoLegale());
 		clienteFound.setIndirizzoOperativo(c.getIndirizzoOperativo());
