@@ -20,6 +20,17 @@ public class RoleService {
 	@Autowired
 	private RoleRepository roleRepo;
 
+	// ***** CREATE *****
+	public Role create(String r) {
+		roleRepo.findByNome(r).ifPresent(user -> {
+			throw new BadRequestException("Ruolo " + r + " già in uso!");
+		});
+
+		Role newRuolo = new Role(r);
+
+		return roleRepo.save(newRuolo);
+	}
+
 	//***** READ BY ID *****
 	public Role findById(UUID id) {
 		//Optional<Role> optionalRole = roleRepo.findById(id);
@@ -65,17 +76,6 @@ public class RoleService {
 		found.setId(id);
 		found.setNome(r.getNome());
 		return roleRepo.save(found);
-	}
-
-	// ***** CREATE *****
-	public Role create(String r) {
-		roleRepo.findByNome(r).ifPresent(user -> {
-			throw new BadRequestException("Ruolo " + r + " già in uso!");
-		});
-
-		Role newRuolo = new Role(r);
-
-		return roleRepo.save(newRuolo);
 	}
 
 	//***** DELETE BY ID *****

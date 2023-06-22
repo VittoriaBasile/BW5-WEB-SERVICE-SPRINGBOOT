@@ -31,7 +31,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-//@JsonIgnoreProperties({ "isAccountNonLocked", "isEnabled", "isCredentialsNonExpired", "authorities" })
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue
@@ -41,17 +40,10 @@ public class User implements UserDetails {
 	private String username;
 	private String email;
 	private String password;
-	//@ManyToOne
-	//@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	@JsonIgnore
 	private Set<Role> roles = new LinkedHashSet<>();
-
-	//private boolean isEnabled;
-	//private boolean isCredentialsNonExpired;
-	//private boolean isAccountNonExpired;
-	//private boolean isAccountNonLocked;
 
 	public User(String nome, String cognome, String username, String email, String password) {
 		this.nome = nome;
@@ -59,26 +51,16 @@ public class User implements UserDetails {
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		//this.isEnabled = true;
-		//this.isAccountNonExpired = true;
-		//this.isCredentialsNonExpired = true;
-		//this.isAccountNonLocked = true;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		//return List.of(new SimpleGrantedAuthority(role.getTipo()));
-
 		Set<GrantedAuthority> authorities = new HashSet<>();
 		for (Role role : roles) {
 			authorities.add(new SimpleGrantedAuthority(role.getNome()));
 		}
 		return authorities;
 	}
-
-	//public String getEmail() {
-	//	return this.email;
-	//}
 
 	@Override
 	public String getUsername() {
