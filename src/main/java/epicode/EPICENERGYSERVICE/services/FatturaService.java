@@ -1,5 +1,6 @@
 package epicode.EPICENERGYSERVICE.services;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -43,7 +44,8 @@ public class FatturaService {
 	}
 
 	public Fattura findById(UUID id) throws NotFoundException {
-		return fatturaRepo.findById(id).orElseThrow(() -> new NotFoundException("Cliente con Id:" + id + "non trovato!!"));
+		return fatturaRepo.findById(id)
+				.orElseThrow(() -> new NotFoundException("Cliente con Id:" + id + "non trovato!!"));
 	}
 
 	public List<Fattura> findByStato(StatoFattura stato) throws NotFoundException {
@@ -71,14 +73,14 @@ public class FatturaService {
 
 	}
 
-	//	public List<Fattura> findByImporti(BigDecimal importoMinimo, BigDecimal importoMassimo) throws NotFoundException {
-	//    List<Fattura> fatture = fatturaRepo.findByImportoRange(importoMinimo, importoMassimo);
-	//    if (fatture.isEmpty()) {
-	//        throw new NotFoundException(
-	//                "Nessuna fattura trovata con importo compreso tra " + importoMinimo + " e " + importoMassimo);
-	//    }
-	//    return fatture;
-	//}
+	public List<Fattura> findByImporti(BigDecimal importoMinimo, BigDecimal importoMassimo) throws NotFoundException {
+		List<Fattura> fatture = fatturaRepo.findByImportoRange(importoMinimo, importoMassimo);
+		if (fatture.isEmpty()) {
+			throw new NotFoundException(
+					"Nessuna fattura trovata con importo compreso tra " + importoMinimo + " e " + importoMassimo);
+		}
+		return fatture;
+	}
 
 	public Fattura findByIdAndUpdate(UUID id, Fattura f) throws NotFoundException {
 		Fattura found = this.findById(id);

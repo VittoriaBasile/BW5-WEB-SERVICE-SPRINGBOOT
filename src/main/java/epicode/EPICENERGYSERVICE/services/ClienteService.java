@@ -1,7 +1,6 @@
 package epicode.EPICENERGYSERVICE.services;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,84 +49,40 @@ public class ClienteService {
 	}
 
 	// read by nome
+
 	public List<Cliente> findByNome(String nome) throws NotFoundException {
-		List<Cliente> clienti = clienteRepo.findAll();
-		List<Cliente> clientiPerNome = new ArrayList<>();
-		boolean trovato = false;
-
-		for (Cliente cliente : clienti) {
-			if (cliente.getNome().contains(nome)) {
-				clientiPerNome.add(cliente);
-				trovato = true;
-			}
+		List<Cliente> clienti = clienteRepo.findByNome(nome);
+		if (clienti.isEmpty()) {
+			throw new NotFoundException("Nessuna fattura trovata con stato " + nome);
 		}
-
-		if (!trovato) {
-			throw new NotFoundException("Nessun cliente trovato con il nome: " + nome);
-		}
-
-		return clientiPerNome;
+		return clienti;
 	}
 
 	// read by FatturatoAnnuo
 	public List<Cliente> findByFatturatoAnnuo(double fatturatoAnnuo) throws NotFoundException {
-		List<Cliente> clienti = clienteRepo.findAll();
-		List<Cliente> clientiPerFatturato = new ArrayList<>();
-		boolean trovato = false;
-
-		for (Cliente cliente : clienti) {
-			int comparazione = Double.compare(cliente.getFatturatoAnnuo(), fatturatoAnnuo);
-			if (comparazione == 0) {
-				clientiPerFatturato.add(cliente);
-				trovato = true;
-			}
-		}
-
-		if (!trovato) {
+		List<Cliente> clienti = clienteRepo.findByFatturatoAnnuo(fatturatoAnnuo);
+		if (clienti.isEmpty()) {
 			throw new NotFoundException("Nessun cliente trovato con il fatturato annuo: " + fatturatoAnnuo);
 		}
-
-		return clientiPerFatturato;
+		return clienti;
 	}
 
 // read by DataInserimento
 	public List<Cliente> findByDataInserimento(LocalDate data) throws NotFoundException {
-		List<Cliente> clienti = clienteRepo.findAll();
-		List<Cliente> clientiPerDataInserimento = new ArrayList<>();
-		boolean trovato = false;
-
-		for (Cliente cliente : clienti) {
-			if (cliente.getDataInserimento().isEqual(data)) {
-				clientiPerDataInserimento.add(cliente);
-				trovato = true;
-			}
-		}
-
-		if (!trovato) {
+		List<Cliente> clienti = clienteRepo.findByDataInserimento(data);
+		if (clienti.isEmpty()) {
 			throw new NotFoundException("Nessun cliente trovato con la data di inserimento: " + data);
 		}
-
-		return clientiPerDataInserimento;
+		return clienti;
 	}
 
 // read by DataUltimoContatto
 	public List<Cliente> findByDataUltimoContatto(LocalDate data) throws NotFoundException {
-		List<Cliente> clienti = clienteRepo.findAll();
-		List<Cliente> clientiPerDataUltimoContatto = new ArrayList<>();
-		boolean trovato = false;
-
-		for (Cliente cliente : clienti) {
-			if (cliente.getDataUltimoContatto().isEqual(data)) {
-				clientiPerDataUltimoContatto.add(cliente);
-				trovato = true;
-			}
-		}
-
-		if (!trovato) {
+		List<Cliente> clienti = clienteRepo.findByDataUltimoContatto(data);
+		if (clienti.isEmpty()) {
 			throw new NotFoundException("Nessun cliente trovato con la data di ultimo contatto: " + data);
 		}
-
-		return clientiPerDataUltimoContatto;
+		return clienti;
 	}
 
 	// ***** UPDATE *****
