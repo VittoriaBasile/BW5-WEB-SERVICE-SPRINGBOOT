@@ -52,8 +52,8 @@ public class Cliente {
 
 	public Cliente(String nome, int partitaIva, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo, String email,
 			String telefono, String pec, String emailContatto, String nomeContatto, String cognomeContatto,
-			String telefonoContatto, LocalDate dataInserimento, LocalDate dataUltimoContatto, RagioneSociale ragioneSociale,
-			double fatturatoAnnuo, List<Fattura> fatture) {
+			String telefonoContatto, LocalDate dataInserimento, LocalDate dataUltimoContatto,
+			RagioneSociale ragioneSociale, double fatturatoAnnuo, List<Fattura> fatture) {
 
 		this.nome = nome;
 		this.partitaIva = partitaIva;
@@ -69,8 +69,16 @@ public class Cliente {
 		this.dataInserimento = dataInserimento;
 		this.dataUltimoContatto = dataUltimoContatto;
 		this.ragioneSociale = ragioneSociale;
-		this.fatturatoAnnuo = 0.00;
+		this.fatturatoAnnuo = fatturatoAnnuo(fatture);
 		this.fatture = new ArrayList<>();
 	}
 
+	public double fatturatoAnnuo(List<Fattura> fatture) {
+		double tot = 0.00;
+		for (Fattura fattura : fatture) {
+			tot += fattura.getImporto().doubleValue();
+		}
+		return tot;
+
+	}
 }

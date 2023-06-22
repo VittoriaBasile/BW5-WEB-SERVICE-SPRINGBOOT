@@ -1,12 +1,15 @@
 package epicode.EPICENERGYSERVICE.controllers;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,31 +50,48 @@ public class FatturaController {
 		return fatturaService.findById(fatturaId);
 	}
 
-	@GetMapping("/{statoFattura}")
-	public List<Fattura> getFatturaByStato(@PathVariable StatoFattura stato) throws Exception {
-		return fatturaService.findByStato(stato);
+	@GetMapping("/stato/{stato}")
+	public ResponseEntity<List<Fattura>> getFattureByStato(@PathVariable StatoFattura stato) {
+		try {
+			List<Fattura> fatture = fatturaService.findByStato(stato);
+			return ResponseEntity.ok(fatture);
+		} catch (NotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
-	@GetMapping("/{dataFattura}")
-	public List<Fattura> getFatturaByData(@PathVariable Date data) throws Exception {
-		return fatturaService.findByData(data);
+	@GetMapping("/data")
+	public ResponseEntity<List<Fattura>> getFattureByData(
+			@RequestParam("data") @DateTimeFormat(pattern = "yyyy-MM-dd") Date data) {
+		try {
+			List<Fattura> fatture = fatturaService.findByData(data);
+			return ResponseEntity.ok(fatture);
+		} catch (NotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
-	@GetMapping("/{annoFattura}")
-	public List<Fattura> getFatturaByAnno(@PathVariable int anno) throws Exception {
-		return fatturaService.findByAnno(anno);
+	@GetMapping("/anno/{anno}")
+	public ResponseEntity<List<Fattura>> getFattureByAnno(@PathVariable int anno) {
+		try {
+			List<Fattura> fatture = fatturaService.findByAnno(anno);
+			return ResponseEntity.ok(fatture);
+		} catch (NotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
-	//	@GetMapping("/{importoMinimo}/{importoMassimo}")
-	//	public List<Fattura> getFatturaByImporto(@PathVariable BigDecimal importoMinimo,
-	//			@PathVariable BigDecimal importoMassimo) throws NotFoundException {
-	//		List<Fattura> fatture = fatturaService.findByImporti(importoMinimo, importoMassimo);
-	//		if (fatture.isEmpty()) {
-	//			throw new NotFoundException(
-	//					"Nessuna fattura trovata con importo compreso tra " + importoMinimo + " e " + importoMassimo);
-	//		}
-	//		return fatture;
-	//	}
+	@GetMapping("/importo")
+	public ResponseEntity<List<Fattura>> getFattureByImportoRange(
+			@RequestParam("importoMinimo") BigDecimal importoMinimo,
+			@RequestParam("importoMassimo") BigDecimal importoMassimo) {
+		try {
+			List<Fattura> fatture = fatturaService.findByImporti(importoMinimo, importoMassimo);
+			return ResponseEntity.ok(fatture);
+		} catch (NotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
 
 	@PutMapping("/{fatturaId}")
 	public Fattura updateUser(@PathVariable UUID fatturaId, @RequestBody Fattura f) throws Exception {

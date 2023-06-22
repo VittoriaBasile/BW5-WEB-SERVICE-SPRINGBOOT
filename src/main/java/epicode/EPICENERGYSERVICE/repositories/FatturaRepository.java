@@ -1,10 +1,13 @@
 package epicode.EPICENERGYSERVICE.repositories;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import epicode.EPICENERGYSERVICE.entities.Fattura;
@@ -19,8 +22,7 @@ public interface FatturaRepository extends JpaRepository<Fattura, UUID> {
 
 	List<Fattura> findByAnno(int anno);
 
-	// @Query("SELECT * FROM Fattura f WHERE f.importo >= :importoMinimo AND
-	// f.importo <= :importoMassimo")
-	// List<Fattura> findByImportoRange(BigDecimal importoMinimo, BigDecimal
-	// importoMassimo);
+	@Query("SELECT f FROM Fattura f WHERE f.importo >= :importoMinimo AND f.importo <= :importoMassimo")
+	List<Fattura> findByImportoRange(@Param("importoMinimo") BigDecimal importoMinimo,
+			@Param("importoMassimo") BigDecimal importoMassimo);
 }

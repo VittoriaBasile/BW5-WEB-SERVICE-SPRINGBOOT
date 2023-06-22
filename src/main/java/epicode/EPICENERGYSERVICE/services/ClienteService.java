@@ -1,6 +1,7 @@
 package epicode.EPICENERGYSERVICE.services;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,15 @@ public class ClienteService {
 
 	// ***** CREATE *****
 	public Cliente create(Cliente c) {
-		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), c.getIndirizzoLegale(), c.getIndirizzoOperativo(),
-				c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(), c.getNomeContatto(), c.getCognomeContatto(),
-				c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(), c.getRagioneSociale(), 0.00, c.getFatture());
+		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), c.getIndirizzoLegale(),
+				c.getIndirizzoOperativo(), c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(),
+				c.getNomeContatto(), c.getCognomeContatto(), c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(),
+				c.getRagioneSociale(), 0.00, c.getFatture());
 
 		return clienteRepo.save(newCliente);
 	}
 
-	//***** READ *****
+	// ***** READ *****
 	public Page<Cliente> findAll(int page, int size, String sortBy) {
 		if (size < 0)
 			size = 0;
@@ -47,11 +49,43 @@ public class ClienteService {
 	}
 
 	// read by nome
-	public Cliente findByNome(String email) throws NotFoundException {
-		return clienteRepo.findByEmail(email).orElseThrow(() -> new NotFoundException("Email non trovata!"));
+
+	public List<Cliente> findByNome(String nome) throws NotFoundException {
+		List<Cliente> clienti = clienteRepo.findByNome(nome);
+		if (clienti.isEmpty()) {
+			throw new NotFoundException("Nessuna fattura trovata con stato " + nome);
+		}
+		return clienti;
 	}
 
-	//***** UPDATE *****
+	// read by FatturatoAnnuo
+	public List<Cliente> findByFatturatoAnnuo(double fatturatoAnnuo) throws NotFoundException {
+		List<Cliente> clienti = clienteRepo.findByFatturatoAnnuo(fatturatoAnnuo);
+		if (clienti.isEmpty()) {
+			throw new NotFoundException("Nessun cliente trovato con il fatturato annuo: " + fatturatoAnnuo);
+		}
+		return clienti;
+	}
+
+// read by DataInserimento
+	public List<Cliente> findByDataInserimento(LocalDate data) throws NotFoundException {
+		List<Cliente> clienti = clienteRepo.findByDataInserimento(data);
+		if (clienti.isEmpty()) {
+			throw new NotFoundException("Nessun cliente trovato con la data di inserimento: " + data);
+		}
+		return clienti;
+	}
+
+// read by DataUltimoContatto
+	public List<Cliente> findByDataUltimoContatto(LocalDate data) throws NotFoundException {
+		List<Cliente> clienti = clienteRepo.findByDataUltimoContatto(data);
+		if (clienti.isEmpty()) {
+			throw new NotFoundException("Nessun cliente trovato con la data di ultimo contatto: " + data);
+		}
+		return clienti;
+	}
+
+	// ***** UPDATE *****
 	public Cliente update(UUID clienteId, Cliente c) throws NotFoundException {
 		Cliente clienteFound = this.findById(clienteId);
 
@@ -75,7 +109,7 @@ public class ClienteService {
 		return clienteRepo.save(clienteFound);
 	}
 
-	//***** DELETE *****
+	// ***** DELETE *****
 	public void delete(UUID clienteId) throws NotFoundException {
 		Cliente clienteFound = this.findById(clienteId);
 
