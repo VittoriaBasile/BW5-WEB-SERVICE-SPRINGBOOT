@@ -82,6 +82,17 @@ public class UsersService {
 		return usersRepo.save(found);
 	}
 
+	//	public User findByIdAndUpdateRole(UUID id, UserCreatePayload u) throws NotFoundException {
+	//		User found = this.findById(id);
+	//
+	//		Role roleDefault = roleRepo.findByNome("ADMIN")
+	//				.orElseThrow(() -> new NotFoundException("Ruolo ADMIN non esiste!!"));
+	//
+	//		found.getRoles().add(roleDefault);
+	//
+	//		return usersRepo.save(found);
+	//	}
+
 	public void findByIdAndDelete(UUID id) throws NotFoundException {
 		User found = this.findById(id);
 		usersRepo.delete(found);
