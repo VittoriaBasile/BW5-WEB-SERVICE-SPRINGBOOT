@@ -31,7 +31,6 @@ public class IndirizziRunner implements CommandLineRunner {
 		List<Comune> comuniDB = comuneRepo.findAll();
 		List<Indirizzo> indirizzoDb = indirizzoRepo.findAll();
 
-		/*********** INDIRIZZI **************/
 		if (indirizzoDb.size() == 0) {
 			for (int i = 0; i < 20; i++) {
 				try {

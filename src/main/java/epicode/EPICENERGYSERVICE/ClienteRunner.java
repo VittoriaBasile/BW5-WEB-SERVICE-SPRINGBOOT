@@ -33,8 +33,6 @@ public class ClienteRunner implements CommandLineRunner {
 	FatturaRepository fatturaRepo;
 	@Autowired
 	IndirizzoRepository indirizzoRepo;
-	// @Autowired
-	// RagioneSociale ragioneSociale;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -43,20 +41,14 @@ public class ClienteRunner implements CommandLineRunner {
 		Random random = new Random();
 		double randomDouble = random.nextDouble() * 10000.0;
 		List<Cliente> clienteDb = clienteRepo.findAll();
-		// List<Fattura> fatturaDB = fatturaRepo.findAll();
 		List<Indirizzo> indirizzoDb = indirizzoRepo.findAll();
 
-		/***********  **************/
 		if (clienteDb.size() == 0) {
 			for (int i = 0; i < 20; i++) {
 				try {
 
 					String nome = faker.name().firstName();
 					Integer partitaIva = faker.number().randomDigit();
-					// Indirizzo indirizzoLegale =
-					// indirizzoDb.get(faker.random().nextInt(indirizzoDb.size()));
-					// Indirizzo indirizzoOperativo =
-					// indirizzoDb.get(faker.random().nextInt(indirizzoDb.size()));
 					int randomIndex = faker.random().nextInt(indirizzoDb.size());
 
 					Indirizzo indirizzoLegale = indirizzoDb.get(randomIndex);
@@ -81,7 +73,6 @@ public class ClienteRunner implements CommandLineRunner {
 					RagioneSociale ragioneSociale = faker.options().option(RagioneSociale.class);
 					Double fatturatoAnnuo = random.nextDouble() * 10000.0;
 					List<Fattura> fatture = new ArrayList<>();
-					// fatturaDB.get(faker.random().nextInt(fatturaDB.size()));
 					Cliente newcliente = new Cliente(nome, partitaIva, indirizzoLegale, indirizzoOperativo, email,
 							telefono, pec, emailContatto, nomeContatto, cognomeContatto, telefonoContatto,
 							dataInserimento, dataUltimoContatto, ragioneSociale, fatturatoAnnuo, fatture);
