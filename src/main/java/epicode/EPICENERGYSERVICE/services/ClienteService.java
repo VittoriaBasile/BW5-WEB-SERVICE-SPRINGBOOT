@@ -1,6 +1,8 @@
 package epicode.EPICENERGYSERVICE.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +24,15 @@ public class ClienteService {
 
 	// ***** CREATE *****
 	public Cliente create(Cliente c) {
-		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), c.getIndirizzoLegale(), c.getIndirizzoOperativo(),
-				c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(), c.getNomeContatto(), c.getCognomeContatto(),
-				c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(), c.getRagioneSociale(), 0.00, c.getFatture());
+		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), c.getIndirizzoLegale(),
+				c.getIndirizzoOperativo(), c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(),
+				c.getNomeContatto(), c.getCognomeContatto(), c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(),
+				c.getRagioneSociale(), 0.00, c.getFatture());
 
 		return clienteRepo.save(newCliente);
 	}
 
-	//***** READ *****
+	// ***** READ *****
 	public Page<Cliente> findAll(int page, int size, String sortBy) {
 		if (size < 0)
 			size = 0;
@@ -47,11 +50,87 @@ public class ClienteService {
 	}
 
 	// read by nome
-	public Cliente findByNome(String email) throws NotFoundException {
-		return clienteRepo.findByEmail(email).orElseThrow(() -> new NotFoundException("Email non trovata!"));
+	public List<Cliente> findByNome(String nome) throws NotFoundException {
+		List<Cliente> clienti = clienteRepo.findAll();
+		List<Cliente> clientiPerNome = new ArrayList<>();
+		boolean trovato = false;
+
+		for (Cliente cliente : clienti) {
+			if (cliente.getNome().contains(nome)) {
+				clientiPerNome.add(cliente);
+				trovato = true;
+			}
+		}
+
+		if (!trovato) {
+			throw new NotFoundException("Nessun cliente trovato con il nome: " + nome);
+		}
+
+		return clientiPerNome;
 	}
 
-	//***** UPDATE *****
+	// read by FatturatoAnnuo
+	public List<Cliente> findByFatturatoAnnuo(double fatturatoAnnuo) throws NotFoundException {
+		List<Cliente> clienti = clienteRepo.findAll();
+		List<Cliente> clientiPerFatturato = new ArrayList<>();
+		boolean trovato = false;
+
+		for (Cliente cliente : clienti) {
+			int comparazione = Double.compare(cliente.getFatturatoAnnuo(), fatturatoAnnuo);
+			if (comparazione == 0) {
+				clientiPerFatturato.add(cliente);
+				trovato = true;
+			}
+		}
+
+		if (!trovato) {
+			throw new NotFoundException("Nessun cliente trovato con il fatturato annuo: " + fatturatoAnnuo);
+		}
+
+		return clientiPerFatturato;
+	}
+
+// read by DataInserimento
+	public List<Cliente> findByDataInserimento(LocalDate data) throws NotFoundException {
+		List<Cliente> clienti = clienteRepo.findAll();
+		List<Cliente> clientiPerDataInserimento = new ArrayList<>();
+		boolean trovato = false;
+
+		for (Cliente cliente : clienti) {
+			if (cliente.getDataInserimento().isEqual(data)) {
+				clientiPerDataInserimento.add(cliente);
+				trovato = true;
+			}
+		}
+
+		if (!trovato) {
+			throw new NotFoundException("Nessun cliente trovato con la data di inserimento: " + data);
+		}
+
+		return clientiPerDataInserimento;
+	}
+
+// read by DataUltimoContatto
+	public List<Cliente> findByDataUltimoContatto(LocalDate data) throws NotFoundException {
+		List<Cliente> clienti = clienteRepo.findAll();
+		List<Cliente> clientiPerDataUltimoContatto = new ArrayList<>();
+		boolean trovato = false;
+
+		for (Cliente cliente : clienti) {
+			if (cliente.getDataUltimoContatto().isEqual(data)) {
+				clientiPerDataUltimoContatto.add(cliente);
+				trovato = true;
+			}
+		}
+
+		if (!trovato) {
+			throw new NotFoundException("Nessun cliente trovato con la data di ultimo contatto: " + data);
+		}
+
+		return clientiPerDataUltimoContatto;
+	}
+
+	// ***** UPDATE *****
 	public Cliente update(UUID clienteId, Cliente c) throws NotFoundException {
 		Cliente clienteFound = this.findById(clienteId);
 
@@ -75,7 +154,7 @@ public class ClienteService {
 		return clienteRepo.save(clienteFound);
 	}
 
-	//***** DELETE *****
+	// ***** DELETE *****
 	public void delete(UUID clienteId) throws NotFoundException {
 		Cliente clienteFound = this.findById(clienteId);
 

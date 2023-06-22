@@ -1,5 +1,7 @@
 package epicode.EPICENERGYSERVICE.repositories;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,5 +14,13 @@ import epicode.EPICENERGYSERVICE.entities.Cliente;
 public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
 
 	public Optional<Cliente> findByEmail(String email);
+
+	public List<Cliente> findByNome(String nome);
+
+	public List<Cliente> findByFatturatoAnnuo(double fatturatoAnnuo);
+
+	public List<Cliente> findByDataInserimento(LocalDate data);
+
+	public List<Cliente> findByDataUltimoContatto(LocalDate data);
 
 }
