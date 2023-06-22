@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +25,7 @@ import epicode.EPICENERGYSERVICE.services.UsersService;
 
 @RestController
 @RequestMapping("/users")
-@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 public class UsersController {
 	@Autowired
 	private UsersService usersService;
@@ -38,7 +37,7 @@ public class UsersController {
 	}
 
 	@PostMapping("")
-	@PostAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public User saveUser(@RequestBody @Validated UserCreatePayload body) {
 		return usersService.create(body);
@@ -50,13 +49,13 @@ public class UsersController {
 	}
 
 	@PutMapping("/{userId}")
-	@PostAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public User updateUser(@PathVariable UUID userId, @RequestBody UserCreatePayload body) throws Exception { //=> devo forse passare User e non UserCreatePayload?
 		return usersService.findByIdAndUpdate(userId, body);
 	}
 
 	@DeleteMapping("/{userId}")
-	@PreAuthorize("hasAuthority('USER')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteUser(@PathVariable UUID userId) throws NotFoundException {
 		usersService.findByIdAndDelete(userId);
