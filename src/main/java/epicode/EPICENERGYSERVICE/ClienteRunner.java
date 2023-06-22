@@ -1,7 +1,6 @@
 package epicode.EPICENERGYSERVICE;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -48,7 +47,7 @@ public class ClienteRunner implements CommandLineRunner {
 				try {
 
 					String nome = faker.name().firstName();
-					Integer partitaIva = faker.number().randomDigit();
+					Integer partitaIva = faker.number().numberBetween(111111, 999999);
 					int randomIndex = faker.random().nextInt(indirizzoDb.size());
 
 					Indirizzo indirizzoLegale = indirizzoDb.get(randomIndex);
@@ -66,10 +65,8 @@ public class ClienteRunner implements CommandLineRunner {
 					String nomeContatto = faker.name().firstName();
 					String cognomeContatto = faker.name().lastName();
 					String telefonoContatto = faker.phoneNumber().cellPhone();
-					LocalDate dataInserimento = faker.date().birthday().toInstant().atZone(ZoneId.systemDefault())
-							.toLocalDate();
-					LocalDate dataUltimoContatto = faker.date().birthday().toInstant().atZone(ZoneId.systemDefault())
-							.toLocalDate();
+					LocalDate dataInserimento = LocalDate.now();
+					LocalDate dataUltimoContatto = LocalDate.now();
 					RagioneSociale ragioneSociale = faker.options().option(RagioneSociale.class);
 					Double fatturatoAnnuo = random.nextDouble() * 10000.0;
 					List<Fattura> fatture = new ArrayList<>();
