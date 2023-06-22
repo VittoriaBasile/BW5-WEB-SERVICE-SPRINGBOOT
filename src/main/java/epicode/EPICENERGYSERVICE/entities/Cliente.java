@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -48,12 +49,11 @@ public class Cliente {
 	private double fatturatoAnnuo;
 
 	@OneToMany(mappedBy = "cliente")
-	private List<Fattura> fatture;
+	private List<Fattura> fatture = new ArrayList<>();
 
 	public Cliente(String nome, int partitaIva, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo, String email,
 			String telefono, String pec, String emailContatto, String nomeContatto, String cognomeContatto,
-			String telefonoContatto, LocalDate dataInserimento, LocalDate dataUltimoContatto,
-			RagioneSociale ragioneSociale, double fatturatoAnnuo, List<Fattura> fatture) {
+			String telefonoContatto, LocalDate dataInserimento, LocalDate dataUltimoContatto, RagioneSociale ragioneSociale) {
 
 		this.nome = nome;
 		this.partitaIva = partitaIva;
@@ -69,10 +69,11 @@ public class Cliente {
 		this.dataInserimento = dataInserimento;
 		this.dataUltimoContatto = dataUltimoContatto;
 		this.ragioneSociale = ragioneSociale;
-		this.fatturatoAnnuo = fatturatoAnnuo(fatture);
-		this.fatture = new ArrayList<>();
+		//this.fatturatoAnnuo = fatturatoAnnuo(fatture); //=> ,double fatturatoAnnuo
+		//this.fatture = new ArrayList<>(); //=> , List<Fattura> fatture
 	}
 
+	@PostConstruct
 	public double fatturatoAnnuo(List<Fattura> fatture) {
 		double tot = 0.00;
 		for (Fattura fattura : fatture) {

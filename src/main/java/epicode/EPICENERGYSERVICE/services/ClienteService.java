@@ -23,10 +23,11 @@ public class ClienteService {
 
 	// ***** CREATE *****
 	public Cliente create(Cliente c) {
-		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), c.getIndirizzoLegale(),
-				c.getIndirizzoOperativo(), c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(),
-				c.getNomeContatto(), c.getCognomeContatto(), c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(),
-				c.getRagioneSociale(), 0.00, c.getFatture());
+		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), c.getIndirizzoLegale(), c.getIndirizzoOperativo(),
+				c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(), c.getNomeContatto(), c.getCognomeContatto(),
+				c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(), c.getRagioneSociale());
+
+		newCliente.setFatturatoAnnuo(newCliente.fatturatoAnnuo(newCliente.getFatture()));
 
 		return clienteRepo.save(newCliente);
 	}
@@ -67,7 +68,7 @@ public class ClienteService {
 		return clienti;
 	}
 
-// read by DataInserimento
+	// read by DataInserimento
 	public List<Cliente> findByDataInserimento(LocalDate data) throws NotFoundException {
 		List<Cliente> clienti = clienteRepo.findByDataInserimento(data);
 		if (clienti.isEmpty()) {
@@ -76,7 +77,7 @@ public class ClienteService {
 		return clienti;
 	}
 
-// read by DataUltimoContatto
+	// read by DataUltimoContatto
 	public List<Cliente> findByDataUltimoContatto(LocalDate data) throws NotFoundException {
 		List<Cliente> clienti = clienteRepo.findByDataUltimoContatto(data);
 		if (clienti.isEmpty()) {

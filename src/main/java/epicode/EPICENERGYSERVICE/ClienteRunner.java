@@ -1,7 +1,6 @@
 package epicode.EPICENERGYSERVICE;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 import com.github.javafaker.Faker;
 
 import epicode.EPICENERGYSERVICE.entities.Cliente;
-import epicode.EPICENERGYSERVICE.entities.Fattura;
 import epicode.EPICENERGYSERVICE.entities.Indirizzo;
 import epicode.EPICENERGYSERVICE.entities.RagioneSociale;
 import epicode.EPICENERGYSERVICE.repositories.ClienteRepository;
@@ -62,18 +60,19 @@ public class ClienteRunner implements CommandLineRunner {
 					LocalDate dataInserimento = LocalDate.now();
 					LocalDate dataUltimoContatto = LocalDate.now();
 					RagioneSociale ragioneSociale = faker.options().option(RagioneSociale.class);
-					Double fatturatoAnnuo = random.nextDouble() * 10000.0;
-					List<Fattura> fatture = new ArrayList<>();
-					Cliente newcliente = new Cliente(nome, partitaIva, indirizzoLegale, indirizzoOperativo, email,
-							telefono, pec, emailContatto, nomeContatto, cognomeContatto, telefonoContatto,
-							dataInserimento, dataUltimoContatto, ragioneSociale, fatturatoAnnuo, fatture);
+					//Double fatturatoAnnuo = random.nextDouble() * 10000.0;
+					//Double fatturatoAnnuo = Cliente.
+					//List<Fattura> fatture = new ArrayList<>();
+					Cliente newcliente = new Cliente(nome, partitaIva, indirizzoLegale, indirizzoOperativo, email, telefono, pec,
+							emailContatto, nomeContatto, cognomeContatto, telefonoContatto, dataInserimento, dataUltimoContatto,
+							ragioneSociale);
+					//newcliente.fatturatoAnnuo(newcliente.getFatture());
 					clienteRepo.save(newcliente);
 				} catch (Exception e) {
 					System.out.println(e);
 				}
 			}
 		}
-
 	}
 
 }
