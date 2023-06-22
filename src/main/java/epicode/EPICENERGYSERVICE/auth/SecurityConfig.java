@@ -28,6 +28,8 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/users/**").authenticated());
+		http.authorizeHttpRequests(auth -> auth.requestMatchers("/clienti/**").authenticated());
+		http.authorizeHttpRequests(auth -> auth.requestMatchers("/fatture/**").authenticated());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/roles/**").authenticated());
 		// http.authorizeHttpRequests(auth ->
 		// auth.requestMatchers("/users/**").hasRole("ADMIN"));

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -32,8 +34,10 @@ public class Cliente {
 	private String nome;
 	private int partitaIva;
 	@OneToOne
+	@JsonIgnore
 	private Indirizzo indirizzoLegale;
 	@OneToOne
+	@JsonIgnore
 	private Indirizzo indirizzoOperativo;
 	private String email;
 	private String telefono;
@@ -49,6 +53,7 @@ public class Cliente {
 	private double fatturatoAnnuo;
 
 	@OneToMany(mappedBy = "cliente")
+	@JsonIgnore
 	private List<Fattura> fatture = new ArrayList<>();
 
 	public Cliente(String nome, int partitaIva, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo, String email,

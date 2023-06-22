@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ import epicode.EPICENERGYSERVICE.services.FatturaService;
 
 @RestController
 @RequestMapping("/fatture")
+@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 public class FatturaController {
 	@Autowired
 	private FatturaService fatturaService;
@@ -40,6 +42,7 @@ public class FatturaController {
 	}
 
 	@PostMapping("")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Fattura createFattura(@RequestBody @Validated Fattura f) {
 		return fatturaService.create(f);
@@ -60,7 +63,7 @@ public class FatturaController {
 		}
 	}
 
-	@GetMapping("/data")
+	@GetMapping("/data/")
 	public ResponseEntity<List<Fattura>> getFattureByData(
 			@RequestParam("data") @DateTimeFormat(pattern = "yyyy-MM-dd") Date data) {
 		try {
@@ -82,8 +85,7 @@ public class FatturaController {
 	}
 
 	@GetMapping("/importo")
-	public ResponseEntity<List<Fattura>> getFattureByImportoRange(
-			@RequestParam("importoMinimo") BigDecimal importoMinimo,
+	public ResponseEntity<List<Fattura>> getFattureByImportoRange(@RequestParam("importoMinimo") BigDecimal importoMinimo,
 			@RequestParam("importoMassimo") BigDecimal importoMassimo) {
 		try {
 			List<Fattura> fatture = fatturaService.findByImporti(importoMinimo, importoMassimo);
@@ -94,11 +96,13 @@ public class FatturaController {
 	}
 
 	@PutMapping("/{fatturaId}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public Fattura updateUser(@PathVariable UUID fatturaId, @RequestBody Fattura f) throws Exception {
 		return fatturaService.findByIdAndUpdate(fatturaId, f);
 	}
 
 	@DeleteMapping("/{fatturaId}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteUser(@PathVariable UUID fatturaId) throws NotFoundException {
 		fatturaService.findByIdAndDelete(fatturaId);

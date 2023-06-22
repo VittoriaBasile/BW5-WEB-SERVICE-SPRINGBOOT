@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,12 +28,14 @@ import epicode.EPICENERGYSERVICE.services.ClienteService;
 
 @RestController
 @RequestMapping("/clienti")
+@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 public class ClienteController {
 
 	@Autowired
 	ClienteService clienteService;
 
 	@PostMapping("")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cliente createUtente(@RequestBody @Validated Cliente c) {
 		return clienteService.create(c);
@@ -44,7 +47,7 @@ public class ClienteController {
 		return clienteService.findAll(page, size, sortBy);
 	}
 
-	@GetMapping("/{utenteId}")
+	@GetMapping("/{clienteId}")
 	public Cliente readUtente(@PathVariable UUID clienteId) throws Exception {
 		return clienteService.findById(clienteId);
 	}
@@ -91,14 +94,16 @@ public class ClienteController {
 		}
 	}
 
-	@PutMapping("/{utenteId}")
-	public Cliente updateUtente(@PathVariable UUID clienteId, @RequestBody Cliente c) throws Exception {
+	@PutMapping("/{clienteId}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public Cliente updateCliente(@PathVariable UUID clienteId, @RequestBody Cliente c) throws Exception {
 		return clienteService.update(clienteId, c);
 	}
 
-	@DeleteMapping("/{utenteId}")
+	@DeleteMapping("/{clienteId}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteUtente(@PathVariable UUID clienteId) throws Exception {
+	public void deleteCliente(@PathVariable UUID clienteId) throws Exception {
 		clienteService.delete(clienteId);
 	}
 
