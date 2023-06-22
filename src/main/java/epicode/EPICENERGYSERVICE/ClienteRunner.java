@@ -38,25 +38,19 @@ public class ClienteRunner implements CommandLineRunner {
 		Faker faker = new Faker(new Locale("it"));
 
 		Random random = new Random();
-		double randomDouble = random.nextDouble() * 10000.0;
+
 		List<Cliente> clienteDb = clienteRepo.findAll();
 		List<Indirizzo> indirizzoDb = indirizzoRepo.findAll();
-
+		indirizzoDb.get(0);
 		if (clienteDb.size() == 0) {
 			for (int i = 0; i < 20; i++) {
 				try {
 
 					String nome = faker.name().firstName();
 					Integer partitaIva = faker.number().numberBetween(111111, 999999);
-					int randomIndex = faker.random().nextInt(indirizzoDb.size());
 
-					Indirizzo indirizzoLegale = indirizzoDb.get(randomIndex);
-					Indirizzo indirizzoOperativo;
-
-					do {
-						int newIndex = faker.random().nextInt(indirizzoDb.size());
-						indirizzoOperativo = indirizzoDb.get(newIndex);
-					} while (indirizzoOperativo.equals(indirizzoLegale));
+					Indirizzo indirizzoLegale = indirizzoDb.get(i);
+					Indirizzo indirizzoOperativo = indirizzoDb.get(i + 20);
 
 					String email = faker.internet().emailAddress();
 					String telefono = faker.phoneNumber().cellPhone();
