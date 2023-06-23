@@ -31,62 +31,6 @@ public class ComuneRunner implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// TODO Auto-generated method stub
-
-		// OK
-
-		// try {
-		// CsvToBeanBuilder<Comune> beanBuilder = new CsvToBeanBuilder<>(
-		// new InputStreamReader(new FileInputStream("comuni-italiani.csv")));
-		//
-		// beanBuilder.withType(Comune.class);
-		// // build methods returns a list of Beans
-		// beanBuilder.build().parse().forEach(e -> log.error(e.toString()));
-		//
-		// } catch (FileNotFoundException e) {
-		// log.error(e.getMessage(), e);
-		// }
-		// }
-		// *******************************
-
-		// // String csvFile = "classpath:static/comuni-italiani.csv";
-		// String csvFile = "comuni-italiani.csv";
-		//
-		// // List<Comune> beans = new CsvToBeanBuilder(new
-		// FileReader("classpath:static/comuni-italiani.csv"))
-		// // .withType(Comune.class).build().parse();
-		//
-		// ColumnPositionMappingStrategy<Comune> mappingStrategy = new
-		// ColumnPositionMappingStrategy<>();
-		// mappingStrategy.setType(Comune.class);
-		//
-		// mappingStrategy.setColumnMapping("CODICE PROVINCIA", "PROGRESSIVO DEL
-		// COMUNE", "DENOMINAZIONE IN ITALIANO");
-		//
-		// try (FileReader fileReader = new FileReader(csvFile)) {
-		// // CsvToBean<Comune> csvToBean = new
-		// CsvToBeanBuilder<Comune>(fileReader).withType(Comune.class)
-		// // .withIgnoreLeadingWhiteSpace(true).build();
-		//
-		// CsvToBean<Comune> csvToBean = new
-		// CsvToBeanBuilder<Comune>(fileReader).withType(Comune.class)
-		// .withMappingStrategy(new HeaderColumnNameMappingStrategy<Comune>()).build();
-		//
-		// List<Comune> comuni = csvToBean.parse();
-		//
-		// //Process the dataList as needed
-		// for (Comune comune : comuni) {
-		// System.out.println(comune);
-		// }
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		// }
-
-		// List <Comune> beans = new CsvToBeanBuilder<Comune>(new FileReader(csvFile))
-		// .withType(Comune.class).build().parse();
-
-		// beans.add(null);
 
 		if (comuneRepo.findAll().size() == 0) {
 
@@ -107,16 +51,16 @@ public class ComuneRunner implements CommandLineRunner {
 					String denominazione = columns[2];
 					String nomeProvincia = columns[3];
 
-					System.out.println("Codice provincia: " + codiceProvincia + ", progressivo del comune: " + progressivoComune
-							+ ", denominazione in italiano: " + denominazione + ", nome provincia: " + nomeProvincia);
-					// Comune newComune = new Comune(codiceProvincia, progressivoComune,
-					// denominazione, nomeProvincia);
+					// System.out.println("Codice provincia: " + codiceProvincia + ", progressivo
+					// del comune: " + progressivoComune
+					// + ", denominazione in italiano: " + denominazione + ", nome provincia: " +
+					// nomeProvincia);
+
 					Provincia provincia = provinciaRepo.findByNome(nomeProvincia);
 					if (provincia != null) {
-						// List<Comune> comuni = new ArrayList<>();
-						Comune newComune = new Comune(codiceProvincia, progressivoComune, denominazione, nomeProvincia, provincia);
-						// List<Comune> comuniConProvincia =
-						// comuneService.createComuniWithProvincia(comuni);
+						Comune newComune = new Comune(codiceProvincia, progressivoComune, denominazione, nomeProvincia,
+								provincia);
+
 						comuneRepo.save(newComune);
 					}
 				}
