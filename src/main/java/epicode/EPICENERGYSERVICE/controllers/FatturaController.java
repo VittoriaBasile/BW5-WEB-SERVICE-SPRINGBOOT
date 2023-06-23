@@ -63,16 +63,6 @@ public class FatturaController {
 		}
 	}
 
-//	@GetMapping("/data/")
-//	public ResponseEntity<List<Fattura>> getFattureByData(
-//			@RequestParam("data") @DateTimeFormat(pattern = "yyyy-MM-dd") Date data) {
-//		try {
-//			List<Fattura> fatture = fatturaService.findByData(data);
-//			return ResponseEntity.ok(fatture);
-//		} catch (NotFoundException e) {
-//			return ResponseEntity.notFound().build();
-//		}
-//	}
 	@GetMapping("/data/{dataString}")
 	public ResponseEntity<List<Fattura>> getFattureByData(@PathVariable("dataString") String dataString) {
 		try {
