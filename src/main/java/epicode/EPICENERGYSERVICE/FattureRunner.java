@@ -40,7 +40,7 @@ public class FattureRunner implements CommandLineRunner {
 
 					String importo = faker.numerify("###.###");
 					BigDecimal bigDecimal = new BigDecimal(importo);
-					Integer numeroFattura = faker.number().randomDigit();
+					Integer numeroFattura = faker.number().numberBetween(111111, 999999);
 					Date data = new Date();
 					Integer anno = faker.number().numberBetween(2019, 2023);
 					StatoFattura statoFattura = faker.options().option(StatoFattura.class);
