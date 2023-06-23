@@ -11,6 +11,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -57,14 +58,13 @@ public class Cliente {
 	// AND p.oraarrivo is not null group by p.tratta_id),0) ")
 	private double fatturatoAnnuo;
 
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
 	@JsonManagedReference // VEDI FATTURA
 	private List<Fattura> fatture = new ArrayList<>();
 
 	public Cliente(String nome, int partitaIva, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo, String email,
 			String telefono, String pec, String emailContatto, String nomeContatto, String cognomeContatto,
-			String telefonoContatto, LocalDate dataInserimento, LocalDate dataUltimoContatto,
-			RagioneSociale ragioneSociale) {
+			String telefonoContatto, LocalDate dataInserimento, LocalDate dataUltimoContatto, RagioneSociale ragioneSociale) {
 
 		this.nome = nome;
 		this.partitaIva = partitaIva;
