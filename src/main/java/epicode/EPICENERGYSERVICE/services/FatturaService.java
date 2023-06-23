@@ -1,7 +1,7 @@
 package epicode.EPICENERGYSERVICE.services;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,7 +56,7 @@ public class FatturaService {
 		return fatture;
 	}
 
-	public List<Fattura> findByData(Date data) throws NotFoundException {
+	public List<Fattura> findByData(LocalDate data) throws NotFoundException {
 		List<Fattura> fatture = fatturaRepo.findByData(data);
 		if (fatture.isEmpty()) {
 			throw new NotFoundException("Nessuna fattura trovata in data " + data);

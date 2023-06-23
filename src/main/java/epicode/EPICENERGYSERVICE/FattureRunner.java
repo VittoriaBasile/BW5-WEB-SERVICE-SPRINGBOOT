@@ -1,7 +1,7 @@
 package epicode.EPICENERGYSERVICE;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,7 +41,7 @@ public class FattureRunner implements CommandLineRunner {
 					String importo = faker.numerify("###.###");
 					BigDecimal bigDecimal = new BigDecimal(importo);
 					Integer numeroFattura = faker.number().numberBetween(111111, 999999);
-					Date data = new Date();
+					LocalDate data = LocalDate.now();
 					Integer anno = faker.number().numberBetween(2019, 2023);
 					StatoFattura statoFattura = faker.options().option(StatoFattura.class);
 					Cliente randomCliente = clienteDb.get(faker.random().nextInt(clienteDb.size()));

@@ -1,13 +1,13 @@
 package epicode.EPICENERGYSERVICE.controllers;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,12 +63,26 @@ public class FatturaController {
 		}
 	}
 
-	@GetMapping("/data/")
-	public ResponseEntity<List<Fattura>> getFattureByData(
-			@RequestParam("data") @DateTimeFormat(pattern = "yyyy-MM-dd") Date data) {
+//	@GetMapping("/data/")
+//	public ResponseEntity<List<Fattura>> getFattureByData(
+//			@RequestParam("data") @DateTimeFormat(pattern = "yyyy-MM-dd") Date data) {
+//		try {
+//			List<Fattura> fatture = fatturaService.findByData(data);
+//			return ResponseEntity.ok(fatture);
+//		} catch (NotFoundException e) {
+//			return ResponseEntity.notFound().build();
+//		}
+//	}
+	@GetMapping("/data/{dataString}")
+	public ResponseEntity<List<Fattura>> getFattureByData(@PathVariable("dataString") String dataString) {
 		try {
+			LocalDate data = LocalDate.parse(dataString);
+
 			List<Fattura> fatture = fatturaService.findByData(data);
 			return ResponseEntity.ok(fatture);
+		} catch (DateTimeParseException e) {
+			// Gestione dell'errore di parsing della data
+			return ResponseEntity.badRequest().build();
 		} catch (NotFoundException e) {
 			return ResponseEntity.notFound().build();
 		}
@@ -85,7 +99,8 @@ public class FatturaController {
 	}
 
 	@GetMapping("/importo")
-	public ResponseEntity<List<Fattura>> getFattureByImportoRange(@RequestParam("importoMinimo") BigDecimal importoMinimo,
+	public ResponseEntity<List<Fattura>> getFattureByImportoRange(
+			@RequestParam("importoMinimo") BigDecimal importoMinimo,
 			@RequestParam("importoMassimo") BigDecimal importoMassimo) {
 		try {
 			List<Fattura> fatture = fatturaService.findByImporti(importoMinimo, importoMassimo);

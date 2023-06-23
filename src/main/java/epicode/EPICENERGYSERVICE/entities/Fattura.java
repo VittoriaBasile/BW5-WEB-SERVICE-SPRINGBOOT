@@ -1,7 +1,7 @@
 package epicode.EPICENERGYSERVICE.entities;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -30,7 +30,7 @@ public class Fattura {
 	private UUID id;
 	private BigDecimal importo;
 	private int numeroFattura;
-	private Date data;
+	private LocalDate data;
 	private int anno;
 	@Enumerated(EnumType.STRING)
 	private StatoFattura statoFattura;
@@ -39,7 +39,7 @@ public class Fattura {
 						// QUESTA VA SULLA PROPRIETà SINGOLA(VEDI CLIENTE ENTITY)
 	private Cliente cliente;
 
-	public Fattura(BigDecimal importo, int numeroFattura, Date data, int anno, StatoFattura statoFattura,
+	public Fattura(BigDecimal importo, int numeroFattura, LocalDate data, int anno, StatoFattura statoFattura,
 			Cliente cliente) {
 		super();
 		this.importo = importo;
