@@ -12,8 +12,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import epicode.EPICENERGYSERVICE.entities.Cliente;
+import epicode.EPICENERGYSERVICE.entities.Indirizzo;
 import epicode.EPICENERGYSERVICE.exceptions.NotFoundException;
 import epicode.EPICENERGYSERVICE.repositories.ClienteRepository;
+import epicode.EPICENERGYSERVICE.repositories.IndirizzoRepository;
 
 @Service
 public class ClienteService {
@@ -21,12 +23,18 @@ public class ClienteService {
 	@Autowired
 	ClienteRepository clienteRepo;
 
+	@Autowired
+	IndirizzoRepository indirizzoRepo;
+
 	// ***** CREATE *****
 	public Cliente create(Cliente c) {
-		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), c.getIndirizzoLegale(),
-				c.getIndirizzoOperativo(), c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(),
-				c.getNomeContatto(), c.getCognomeContatto(), c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(),
-				c.getRagioneSociale());
+
+		Indirizzo newIndirizzoLegale = indirizzoRepo.save(c.getIndirizzoLegale());
+		Indirizzo newIndirizzoOperativo = indirizzoRepo.save(c.getIndirizzoOperativo());
+
+		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), newIndirizzoLegale, newIndirizzoOperativo,
+				c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(), c.getNomeContatto(), c.getCognomeContatto(),
+				c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(), c.getRagioneSociale());
 		clienteRepo.save(newCliente);
 		// newCliente.setFatturatoAnnuo(newCliente.fatturatoAnnuo(newCliente.getFatture()));
 

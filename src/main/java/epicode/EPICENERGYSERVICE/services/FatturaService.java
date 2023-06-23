@@ -44,8 +44,7 @@ public class FatturaService {
 	}
 
 	public Fattura findById(UUID id) throws NotFoundException {
-		return fatturaRepo.findById(id)
-				.orElseThrow(() -> new NotFoundException("Cliente con Id:" + id + "non trovato!!"));
+		return fatturaRepo.findById(id).orElseThrow(() -> new NotFoundException("Cliente con Id:" + id + "non trovato!!"));
 	}
 
 	public List<Fattura> findByStato(StatoFattura stato) throws NotFoundException {
