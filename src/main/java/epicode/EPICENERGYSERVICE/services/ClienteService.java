@@ -53,7 +53,7 @@ public class ClienteService {
 	// read by nome
 
 	public List<Cliente> findByNome(String nome) throws NotFoundException {
-		List<Cliente> clienti = clienteRepo.findByNome(nome);
+		List<Cliente> clienti = clienteRepo.findByNomeContaining(nome);
 		if (clienti.isEmpty()) {
 			throw new NotFoundException("Nessuna fattura trovata con stato " + nome);
 		}

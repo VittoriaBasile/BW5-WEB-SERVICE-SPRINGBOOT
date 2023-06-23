@@ -15,7 +15,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
 
 	public Optional<Cliente> findByEmail(String email);
 
-	public List<Cliente> findByNome(String nome);
+	public List<Cliente> findByNomeContaining(String nome);
 
 	public List<Cliente> findByFatturatoAnnuo(double fatturatoAnnuo);
 
