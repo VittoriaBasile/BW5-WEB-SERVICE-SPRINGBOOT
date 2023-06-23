@@ -26,7 +26,7 @@ public class ClienteService {
 		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), c.getIndirizzoLegale(),
 				c.getIndirizzoOperativo(), c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(),
 				c.getNomeContatto(), c.getCognomeContatto(), c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(),
-				c.getRagioneSociale());
+				c.getRagioneSociale(), c.getFatturatoAnnuo());
 		clienteRepo.save(newCliente);
 		// newCliente.setFatturatoAnnuo(newCliente.fatturatoAnnuo(newCliente.getFatture()));
 
@@ -86,6 +86,10 @@ public class ClienteService {
 		}
 		return clienti;
 	}
+//	 public double getFatturatoAnnuo(UUID clienteId) {
+//	        BigDecimal fatturato = clienteRepo.calculateFatturatoAnnuo(clienteId);
+//	        return fatturato != null ? fatturato.doubleValue() : 0.0;
+//	    }
 
 	// ***** UPDATE *****
 	public Cliente update(UUID clienteId, Cliente c) throws NotFoundException {

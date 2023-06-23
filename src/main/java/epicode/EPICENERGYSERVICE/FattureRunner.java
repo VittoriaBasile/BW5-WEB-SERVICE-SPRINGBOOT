@@ -48,7 +48,6 @@ public class FattureRunner implements CommandLineRunner {
 					Fattura newFattura = new Fattura(bigDecimal, numeroFattura, data, anno, statoFattura,
 							randomCliente);
 					fatturaRepo.save(newFattura);
-					randomCliente.setFatturatoAnnuo(randomCliente.fatturatoAnnuo(randomCliente.getFatture()));
 
 				} catch (Exception e) {
 					System.out.println(e);

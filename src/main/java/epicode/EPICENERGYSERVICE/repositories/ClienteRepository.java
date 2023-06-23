@@ -23,4 +23,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
 
 	public List<Cliente> findByDataUltimoContatto(LocalDate data);
 
+//	@Query("SELECT COALESCE(SUM(f.importo), 0) FROM Cliente c JOIN c.fatture f WHERE c.id = :clienteId GROUP BY f.importo")
+//	BigDecimal calculateFatturatoAnnuo(@Param("clienteId") UUID clienteId);
+
 }

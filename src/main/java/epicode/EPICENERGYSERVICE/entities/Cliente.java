@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -53,9 +52,9 @@ public class Cliente {
 	private LocalDate dataUltimoContatto;
 	@Enumerated(EnumType.STRING)
 	private RagioneSociale ragioneSociale;
-	// @Formula("coalesce( (SELECT SUM(EXTRACT(EPOCH FROM (p.oraarrivo -
-	// p.orapartenza)))/COUNT(p.tratta_id) FROM percorrenze p WHERE p.tratta_id = id
-	// AND p.oraarrivo is not null group by p.tratta_id),0) ")
+
+	// @Formula("(SELECT SUM(f.importo) AS fatturatoAnnuo FROM fatture f WHERE
+	// f.cliente_id = id)")
 	private double fatturatoAnnuo;
 
 	@OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
@@ -64,7 +63,8 @@ public class Cliente {
 
 	public Cliente(String nome, int partitaIva, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo, String email,
 			String telefono, String pec, String emailContatto, String nomeContatto, String cognomeContatto,
-			String telefonoContatto, LocalDate dataInserimento, LocalDate dataUltimoContatto, RagioneSociale ragioneSociale) {
+			String telefonoContatto, LocalDate dataInserimento, LocalDate dataUltimoContatto,
+			RagioneSociale ragioneSociale, double fatturatoAnnuo) {
 
 		this.nome = nome;
 		this.partitaIva = partitaIva;
@@ -80,17 +80,8 @@ public class Cliente {
 		this.dataInserimento = dataInserimento;
 		this.dataUltimoContatto = dataUltimoContatto;
 		this.ragioneSociale = ragioneSociale;
-		this.fatturatoAnnuo = fatturatoAnnuo(fatture); // => ,double fatturatoAnnuo
+		this.fatturatoAnnuo = fatturatoAnnuo; // => ,double fatturatoAnnuo
 		this.fatture = new ArrayList<>(); // => , List<Fattura> fatture
 	}
 
-	@PostConstruct
-	public double fatturatoAnnuo(List<Fattura> fatture) {
-		double tot = 0.00;
-		for (Fattura fattura : fatture) {
-			tot += fattura.getImporto().doubleValue();
-		}
-		return tot;
-
-	}
 }
