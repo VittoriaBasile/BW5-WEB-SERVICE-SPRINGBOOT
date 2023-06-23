@@ -60,19 +60,21 @@ public class ClienteRunner implements CommandLineRunner {
 					LocalDate dataInserimento = LocalDate.now();
 					LocalDate dataUltimoContatto = LocalDate.now();
 					RagioneSociale ragioneSociale = faker.options().option(RagioneSociale.class);
-					//Double fatturatoAnnuo = random.nextDouble() * 10000.0;
-					//Double fatturatoAnnuo = Cliente.
-					//List<Fattura> fatture = new ArrayList<>();
-					Cliente newcliente = new Cliente(nome, partitaIva, indirizzoLegale, indirizzoOperativo, email, telefono, pec,
-							emailContatto, nomeContatto, cognomeContatto, telefonoContatto, dataInserimento, dataUltimoContatto,
-							ragioneSociale);
-					//newcliente.fatturatoAnnuo(newcliente.getFatture());
+					// Double fatturatoAnnuo = random.nextDouble() * 10000.0;
+					// Double fatturatoAnnuo = Cliente.
+					// List<Fattura> fatture = new ArrayList<>();
+					Cliente newcliente = new Cliente(nome, partitaIva, indirizzoLegale, indirizzoOperativo, email,
+							telefono, pec, emailContatto, nomeContatto, cognomeContatto, telefonoContatto,
+							dataInserimento, dataUltimoContatto, ragioneSociale);
+					// newcliente.fatturatoAnnuo(newcliente.getFatture());
 					clienteRepo.save(newcliente);
+
 				} catch (Exception e) {
 					System.out.println(e);
 				}
 			}
 		}
+
 	}
 
 }

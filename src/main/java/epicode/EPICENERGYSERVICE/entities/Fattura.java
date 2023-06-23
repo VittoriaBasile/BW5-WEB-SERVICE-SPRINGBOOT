@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -33,6 +35,8 @@ public class Fattura {
 	@Enumerated(EnumType.STRING)
 	private StatoFattura statoFattura;
 	@ManyToOne
+	@JsonBackReference // PERMETTE DI VISUALIZZARE IL DATO NEL JSON SU POSTMAN SENZA CREARE LOOP;
+						// QUESTA VA SULLA PROPRIETà SINGOLA(VEDI CLIENTE ENTITY)
 	private Cliente cliente;
 
 	public Fattura(BigDecimal importo, int numeroFattura, Date data, int anno, StatoFattura statoFattura,

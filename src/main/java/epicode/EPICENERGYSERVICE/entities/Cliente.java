@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.Entity;
@@ -34,10 +34,12 @@ public class Cliente {
 	private String nome;
 	private int partitaIva;
 	@OneToOne
-	@JsonIgnore
+	@JsonManagedReference
+	// @JsonIgnore
 	private Indirizzo indirizzoLegale;
 	@OneToOne
-	@JsonIgnore
+	// @JsonIgnore
+	@JsonManagedReference
 	private Indirizzo indirizzoOperativo;
 	private String email;
 	private String telefono;
@@ -50,15 +52,19 @@ public class Cliente {
 	private LocalDate dataUltimoContatto;
 	@Enumerated(EnumType.STRING)
 	private RagioneSociale ragioneSociale;
+	// @Formula("coalesce( (SELECT SUM(EXTRACT(EPOCH FROM (p.oraarrivo -
+	// p.orapartenza)))/COUNT(p.tratta_id) FROM percorrenze p WHERE p.tratta_id = id
+	// AND p.oraarrivo is not null group by p.tratta_id),0) ")
 	private double fatturatoAnnuo;
 
 	@OneToMany(mappedBy = "cliente")
-	@JsonIgnore
+	@JsonManagedReference // VEDI FATTURA
 	private List<Fattura> fatture = new ArrayList<>();
 
 	public Cliente(String nome, int partitaIva, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo, String email,
 			String telefono, String pec, String emailContatto, String nomeContatto, String cognomeContatto,
-			String telefonoContatto, LocalDate dataInserimento, LocalDate dataUltimoContatto, RagioneSociale ragioneSociale) {
+			String telefonoContatto, LocalDate dataInserimento, LocalDate dataUltimoContatto,
+			RagioneSociale ragioneSociale) {
 
 		this.nome = nome;
 		this.partitaIva = partitaIva;
@@ -74,8 +80,8 @@ public class Cliente {
 		this.dataInserimento = dataInserimento;
 		this.dataUltimoContatto = dataUltimoContatto;
 		this.ragioneSociale = ragioneSociale;
-		//this.fatturatoAnnuo = fatturatoAnnuo(fatture); //=> ,double fatturatoAnnuo
-		//this.fatture = new ArrayList<>(); //=> , List<Fattura> fatture
+		this.fatturatoAnnuo = fatturatoAnnuo(fatture); // => ,double fatturatoAnnuo
+		this.fatture = new ArrayList<>(); // => , List<Fattura> fatture
 	}
 
 	@PostConstruct

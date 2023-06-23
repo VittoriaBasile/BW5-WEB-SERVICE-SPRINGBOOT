@@ -23,13 +23,14 @@ public class ClienteService {
 
 	// ***** CREATE *****
 	public Cliente create(Cliente c) {
-		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), c.getIndirizzoLegale(), c.getIndirizzoOperativo(),
-				c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(), c.getNomeContatto(), c.getCognomeContatto(),
-				c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(), c.getRagioneSociale());
+		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), c.getIndirizzoLegale(),
+				c.getIndirizzoOperativo(), c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(),
+				c.getNomeContatto(), c.getCognomeContatto(), c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(),
+				c.getRagioneSociale());
+		clienteRepo.save(newCliente);
+		// newCliente.setFatturatoAnnuo(newCliente.fatturatoAnnuo(newCliente.getFatture()));
 
-		newCliente.setFatturatoAnnuo(newCliente.fatturatoAnnuo(newCliente.getFatture()));
-
-		return clienteRepo.save(newCliente);
+		return newCliente;
 	}
 
 	// ***** READ *****
