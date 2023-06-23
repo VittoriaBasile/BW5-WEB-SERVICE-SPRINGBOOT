@@ -1,10 +1,13 @@
 package epicode.EPICENERGYSERVICE.services;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import epicode.EPICENERGYSERVICE.entities.Comune;
 import epicode.EPICENERGYSERVICE.entities.Indirizzo;
+import epicode.EPICENERGYSERVICE.exceptions.NotFoundException;
 import epicode.EPICENERGYSERVICE.repositories.ComuneRepository;
 import epicode.EPICENERGYSERVICE.repositories.IndirizzoRepository;
 
@@ -41,6 +44,11 @@ public class IndirizzoService {
 		//					c.getNomeProvincia());
 		//		}
 		//		return comuneRepo.save(newComune);
+	}
+
+	public Indirizzo findById(UUID id) throws NotFoundException {
+		return indirizzoRepo.findById(id)
+				.orElseThrow(() -> new NotFoundException("Indirizzo con Id:" + id + "non trovato!!"));
 	}
 
 }

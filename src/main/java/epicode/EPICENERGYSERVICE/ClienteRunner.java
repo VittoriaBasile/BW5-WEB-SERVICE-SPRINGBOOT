@@ -63,9 +63,9 @@ public class ClienteRunner implements CommandLineRunner {
 					// Double fatturatoAnnuo = random.nextDouble() * 10000.0;
 					// Double fatturatoAnnuo = Cliente.
 					// List<Fattura> fatture = new ArrayList<>();
-					Cliente newcliente = new Cliente(nome, partitaIva, indirizzoLegale, indirizzoOperativo, email,
-							telefono, pec, emailContatto, nomeContatto, cognomeContatto, telefonoContatto,
-							dataInserimento, dataUltimoContatto, ragioneSociale);
+					Cliente newcliente = new Cliente(nome, partitaIva, indirizzoLegale, indirizzoOperativo, email, telefono, pec,
+							emailContatto, nomeContatto, cognomeContatto, telefonoContatto, dataInserimento, dataUltimoContatto,
+							ragioneSociale);
 					// newcliente.fatturatoAnnuo(newcliente.getFatture());
 					clienteRepo.save(newcliente);
 

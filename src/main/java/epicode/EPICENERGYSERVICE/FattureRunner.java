@@ -45,8 +45,7 @@ public class FattureRunner implements CommandLineRunner {
 					Integer anno = faker.number().numberBetween(2019, 2023);
 					StatoFattura statoFattura = faker.options().option(StatoFattura.class);
 					Cliente randomCliente = clienteDb.get(faker.random().nextInt(clienteDb.size()));
-					Fattura newFattura = new Fattura(bigDecimal, numeroFattura, data, anno, statoFattura,
-							randomCliente);
+					Fattura newFattura = new Fattura(bigDecimal, numeroFattura, data, anno, statoFattura, randomCliente);
 					fatturaRepo.save(newFattura);
 					randomCliente.setFatturatoAnnuo(randomCliente.fatturatoAnnuo(randomCliente.getFatture()));
 

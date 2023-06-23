@@ -49,7 +49,7 @@ public class ProvinciaRunner implements CommandLineRunner {
 					String provincia = columns[1];
 					String regione = columns[2];
 
-					System.out.println("Sigla: " + siglaProvincia + ", provincia: " + provincia + ", Regione: " + regione);
+					//System.out.println("Sigla: " + siglaProvincia + ", provincia: " + provincia + ", Regione: " + regione);
 					List<Comune> comuni = comuneRepo.findAll();
 					List<Comune> comuniPerProvincia = new ArrayList();
 					for (Comune comune : comuni) {

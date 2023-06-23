@@ -1,6 +1,7 @@
 package epicode.EPICENERGYSERVICE.controllers;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,7 +63,7 @@ public class FatturaController {
 	}
 
 	@GetMapping("/data/{data}")
-	public ResponseEntity<List<Fattura>> getFattureByData(@PathVariable String data) {
+	public ResponseEntity<List<Fattura>> getFattureByData(@PathVariable Date data) {
 		try {
 			List<Fattura> fatture = fatturaService.findByData(data);
 			return ResponseEntity.ok(fatture);

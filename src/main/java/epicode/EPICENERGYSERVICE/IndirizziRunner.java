@@ -32,7 +32,7 @@ public class IndirizziRunner implements CommandLineRunner {
 		List<Indirizzo> indirizzoDb = indirizzoRepo.findAll();
 
 		if (indirizzoDb.size() == 0) {
-			for (int i = 0; i < 50; i++) {
+			for (int i = 0; i < 200; i++) {
 				try {
 
 					String via = faker.address().streetName();

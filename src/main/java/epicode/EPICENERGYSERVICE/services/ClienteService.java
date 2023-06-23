@@ -13,9 +13,10 @@ import org.springframework.stereotype.Service;
 
 import epicode.EPICENERGYSERVICE.entities.Cliente;
 import epicode.EPICENERGYSERVICE.entities.Indirizzo;
+import epicode.EPICENERGYSERVICE.entities.RagioneSociale;
 import epicode.EPICENERGYSERVICE.exceptions.NotFoundException;
+import epicode.EPICENERGYSERVICE.payloads.ClienteCreatePayload;
 import epicode.EPICENERGYSERVICE.repositories.ClienteRepository;
-import epicode.EPICENERGYSERVICE.repositories.IndirizzoRepository;
 
 @Service
 public class ClienteService {
@@ -24,21 +25,33 @@ public class ClienteService {
 	ClienteRepository clienteRepo;
 
 	@Autowired
-	IndirizzoRepository indirizzoRepo;
+	//IndirizzoRepository indirizzoRepo;
+	IndirizzoService indirizzoService;
 
 	// ***** CREATE *****
-	public Cliente create(Cliente c) {
+	public Cliente create(ClienteCreatePayload c) {
 
-		Indirizzo newIndirizzoLegale = indirizzoRepo.save(c.getIndirizzoLegale());
-		Indirizzo newIndirizzoOperativo = indirizzoRepo.save(c.getIndirizzoOperativo());
+		Indirizzo newIndirizzoLegale = indirizzoService.findById(c.getIndirizzoLegale());
+		Indirizzo newIndirizzoOperativo = indirizzoService.findById(c.getIndirizzoOperativo());
 
-		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), newIndirizzoLegale, newIndirizzoOperativo,
-				c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(), c.getNomeContatto(), c.getCognomeContatto(),
-				c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(), c.getRagioneSociale());
-		clienteRepo.save(newCliente);
-		// newCliente.setFatturatoAnnuo(newCliente.fatturatoAnnuo(newCliente.getFatture()));
+		Cliente newCliente = new Cliente(c.getNome(), Integer.parseInt(c.getPartitaIva()), newIndirizzoLegale,
+				newIndirizzoOperativo, c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(), c.getNomeContatto(),
+				c.getCognomeContatto(), c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(),
+				RagioneSociale.valueOf(c.getRagioneSociale()));
 
-		return newCliente;
+		//				indirizzoRepo.save(c.getIndirizzoLegale());
+		//		Indirizzo newIndirizzoOperativo = indirizzoRepo.save(c.getIndirizzoOperativo());
+		//
+		//		Cliente newCliente = new Cliente(c.getNome(), c.getPartitaIva(), newIndirizzoLegale, newIndirizzoOperativo,
+		//				c.getEmail(), c.getTelefono(), c.getPec(), c.getEmailContatto(), c.getNomeContatto(), c.getCognomeContatto(),
+		//				c.getTelefonoContatto(), LocalDate.now(), LocalDate.now(), c.getRagioneSociale());
+		//		clienteRepo.save(newCliente);
+		//		// newCliente.setFatturatoAnnuo(newCliente.fatturatoAnnuo(newCliente.getFatture()));
+		//
+		//		return newCliente;
+		newCliente.setFatturatoAnnuo(newCliente.fatturatoAnnuo(newCliente.getFatture()));
+		return clienteRepo.save(newCliente);
+
 	}
 
 	// ***** READ *****

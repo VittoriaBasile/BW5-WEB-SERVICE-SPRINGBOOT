@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import epicode.EPICENERGYSERVICE.entities.Cliente;
 import epicode.EPICENERGYSERVICE.exceptions.NotFoundException;
+import epicode.EPICENERGYSERVICE.payloads.ClienteCreatePayload;
 import epicode.EPICENERGYSERVICE.services.ClienteService;
 
 @RestController
@@ -37,7 +38,7 @@ public class ClienteController {
 	@PostMapping("")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente createUtente(@RequestBody @Validated Cliente c) {
+	public Cliente createUtente(@RequestBody @Validated ClienteCreatePayload c) {
 		return clienteService.create(c);
 	}
 
