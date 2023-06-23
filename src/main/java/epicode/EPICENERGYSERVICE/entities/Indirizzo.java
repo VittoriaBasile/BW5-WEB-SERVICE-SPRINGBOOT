@@ -2,6 +2,8 @@ package epicode.EPICENERGYSERVICE.entities;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -29,6 +31,7 @@ public class Indirizzo {
 	@ManyToOne
 	// @JoinColumn(name = "comune_id", referencedColumnName = "id", nullable =
 	// false)
+	@JsonBackReference
 	private Comune comune;
 
 	public Indirizzo(String via, String civico, String località, int cap, Comune comune) {

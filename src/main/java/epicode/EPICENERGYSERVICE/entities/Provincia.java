@@ -3,6 +3,7 @@ package epicode.EPICENERGYSERVICE.entities;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.opencsv.bean.CsvBindByName;
 
 import jakarta.persistence.Entity;
@@ -32,6 +33,7 @@ public class Provincia {
 	@CsvBindByName(column = "Regione")
 	private String regione;
 	@OneToMany(mappedBy = "provincia")
+	@JsonManagedReference
 	private List<Comune> comuni;
 
 	public Provincia(String sigla, String nome, String regione, List<Comune> comuni) {

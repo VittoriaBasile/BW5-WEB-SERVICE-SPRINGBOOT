@@ -3,6 +3,8 @@ package epicode.EPICENERGYSERVICE.entities;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.opencsv.bean.CsvBindByName;
 
 import jakarta.persistence.Entity;
@@ -36,8 +38,10 @@ public class Comune {
 	@CsvBindByName(column = "Nome Provincia")
 	private String nomeProvincia;
 	@ManyToOne
+	@JsonBackReference
 	private Provincia provincia;
 	@OneToMany(mappedBy = "comune")
+	@JsonManagedReference
 	private List<Indirizzo> indirizzi;
 
 	public Comune(String codiceProvincia, String progressivoDelComune, String denominazioneInItaliano,
